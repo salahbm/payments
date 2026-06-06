@@ -7,7 +7,6 @@ import { ApiError } from '@/lib/api-error';
 import { COOKIE_KEYS } from '@/constants/cookies';
 
 import { env } from '@/env';
-import { ApiResponse } from '@/types/response';
 import { User } from '@/types/user.type';
 
 /**
@@ -32,14 +31,11 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const data = await api.post<ApiResponse<LoginResponse>>(
-      '/api/auth/login',
-      body,
-    );
+    const data = await api.post<LoginResponse>('/api/auth/login', body);
 
     // Set httpOnly cookie server-side — never exposed to client JS
     const cookieStore = await cookies();
-    cookieStore.set(COOKIE_KEYS.ACCESS_TOKEN, data.data.token, {
+    cookieStore.set(COOKIE_KEYS.ACCESS_TOKEN, data.token, {
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
       sameSite: 'strict',
@@ -49,9 +45,8 @@ export async function POST(request: NextRequest) {
 
     // Return user data without the token
     return NextResponse.json({
-      code: data.code,
-      message: data.message,
-      data: { user: data.data.user },
+      message: 'Login successful',
+      data: { user: data.user },
     });
   } catch (error) {
     if (error instanceof ApiError) {

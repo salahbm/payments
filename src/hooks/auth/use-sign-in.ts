@@ -24,19 +24,21 @@ import { SignInType } from './auth.schema';
  */
 
 // Calls the Next.js Route Handler which sets httpOnly cookie server-side to follow BFF pattern
-const signIn = (values: SignInType) =>
-  app.post<ApiResponse<{ user: User }>>('/api/auth/login', values);
+const signIn = async (values: SignInType) =>
+  await app.post<ApiResponse<{ user: User }>>('/api/auth/sign-in', values);
 
 export const useSignIn = () => {
   const queryClient = useQueryClient();
-  const { setUser } = useUserStore();
+  const { setUser, setIsLoggedIn } = useUserStore();
 
   return useMutation({
     mutationFn: signIn,
     onSuccess: (data) => {
       setUser(data.data.user);
+      setIsLoggedIn(true);
       queryClient.invalidateQueries({
-        queryKey: [...queryKeys.auth.all, { id: data.data.user.id }], // Invalidate auth cache for this user, Spead the key and pass the id is recommended by TanStack Query docs
+        // Invalidate auth cache for this user, Spead the key and pass the id is recommended by TanStack Query docs
+        queryKey: [...queryKeys.auth.all, { id: data.data.user.id }],
       });
     },
   });

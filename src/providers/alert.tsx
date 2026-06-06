@@ -137,13 +137,15 @@ const AlertContent: React.FC<IAlertContent> = memo(
     const renderActions = () => {
       if (!customActions) {
         return (
-          <>
+          <footer className="mt-6 flex w-full items-center justify-center gap-4">
             {cancelButton !== null && (
               <AlertDialogCancel
                 onClick={async () => {
                   await Promise.resolve(onCancel).then(onCancelProp);
                 }}
-                className={cn('flex-1', cancelButton?.className)}
+                size="lg"
+                variant="outline"
+                className={cn('w-full max-w-1/2', cancelButton?.className)}
                 {...cancelButton}
               >
                 {cancelText}
@@ -153,12 +155,14 @@ const AlertContent: React.FC<IAlertContent> = memo(
               onClick={async () =>
                 await Promise.resolve(onConfirm).then(onConfirmProp)
               }
-              className={cn('flex-1', confirmButton?.className)}
+              size="lg"
+              variant="default"
+              className={cn('w-full max-w-1/2', confirmButton?.className)}
               {...confirmButton}
             >
               {confirmText}
             </AlertDialogAction>
-          </>
+          </footer>
         );
       }
 
@@ -203,7 +207,7 @@ const AlertContent: React.FC<IAlertContent> = memo(
         aria-describedby={description ? 'alert-dialog-description' : undefined}
         {...alertDialogContent}
       >
-        <AlertDialogHeader {...alertDialogHeader} className="mb-6 py-0">
+        <AlertDialogHeader {...alertDialogHeader}>
           {icon && (
             <span className="mb-5 flex-center w-full">{renderIcon}</span>
           )}
@@ -219,6 +223,9 @@ const AlertContent: React.FC<IAlertContent> = memo(
               {description}
             </AlertDialogDescription>
           )}
+          <AlertDialogDescription className="sr-only">
+            This is added to improve accessibility for screen readers
+          </AlertDialogDescription>
           {contentSlot}
         </AlertDialogHeader>
         <AlertDialogFooter {...alertDialogFooter}>

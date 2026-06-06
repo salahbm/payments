@@ -25,13 +25,13 @@ const shouldRetry = (failureCount: number, error: unknown): boolean => {
     // Don't retry client errors except specific cases
     if (error.isClientError) {
       if (error.status === 408 || error.status === 429) {
-        return failureCount < 2;
+        return failureCount < 1;
       }
       return false;
     }
 
     // Retry server errors (5xx) up to 2 times
-    return failureCount < 2;
+    return failureCount < 1;
   }
 
   // Don't retry unknown errors
@@ -94,11 +94,13 @@ const QueryProvider = ({ children }: PropsWithChildren) => {
         retryDelay: (attemptIndex: number) =>
           Math.min(1000 * 2 ** attemptIndex, 30000),
       },
+      /**
+       * I did not add retry logic for mutations because it can cause unexpected behavior
+       * like creating duplicate records or other issues.
+       */
       mutations: {
         ...defaultOptions.mutations,
-        retry: shouldRetry,
-        retryDelay: (attemptIndex: number) =>
-          Math.min(1000 * 2 ** attemptIndex, 10000),
+        retry: false,
       },
     });
 
