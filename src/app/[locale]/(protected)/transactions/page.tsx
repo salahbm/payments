@@ -1,14 +1,14 @@
 import { NextPage } from 'next';
 
-const HomePage: NextPage = () => {
+const TransactionsPage: NextPage = () => {
   return (
     <div className="container mx-auto pb-8">
       <h1 className="typo-header">Transactions</h1>
       <p className="typo-body-1 text-muted-foreground">
-        Review merchant payment history across Sandbox and Production.
+        Transaction list logic will be implemented here.
       </p>
     </div>
   );
 };
 
-export default HomePage;
+export default TransactionsPage;

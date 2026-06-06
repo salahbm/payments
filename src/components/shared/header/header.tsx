@@ -13,6 +13,7 @@ import { Link } from '@/i18n/routing';
 import { useSidebar } from '@/store/sidebar';
 
 import Avatar from './avatar';
+import { EnvironmentSwitch } from './environment-switch';
 import { LanguageToggle } from './language-toggle';
 import { ThemeToggle } from './theme-toggle';
 
@@ -35,7 +36,7 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-2">
             <Image
               src={IMAGES.logo}
-              alt="Viza Master Logo"
+              alt="Payments Logo"
               width={40}
               height={40}
               priority
@@ -46,6 +47,9 @@ export default function Header() {
           </Link>
         </div>
         <div className="flex items-center gap-1 lg:gap-3">
+          <div className="hidden sm:block">
+            <EnvironmentSwitch />
+          </div>
           <LanguageToggle />
           <ThemeToggle />
           <Avatar />

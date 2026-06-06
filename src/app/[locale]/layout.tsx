@@ -41,7 +41,7 @@ export async function generateMetadata({
       index: true,
       follow: true,
     },
-    keywords: ['nextjs-starter', 'admin', 'dashboard'],
+    keywords: ['payments', 'merchant', 'transactions', 'dashboard'],
     icons: {
       icon: '/favicon.ico',
     },

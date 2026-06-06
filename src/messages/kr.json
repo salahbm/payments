@@ -1,7 +1,7 @@
 {
   "Metadata": {
-    "title": "Next JS Starter에 오신 것을 환영합니다",
-    "description": "Next JS Starter용 관리자 패널입니다"
+    "title": "Payments",
+    "description": "가맹점 결제 내역 대시보드입니다"
   },
   "Header": {
     "language": "언어",
@@ -10,6 +10,11 @@
     "toggleSidebar": "사이드바 토글"
   },
   "Sidebar": {
+    "overview": "개요",
+    "transactions": "거래",
+    "customers": "고객",
+    "paymentMethods": "결제 수단",
+    "developers": "개발자",
     "dashboard": "대시보드",
     "dev": "개발",
     "primitives": "프리미티브",
@@ -67,7 +72,7 @@
     },
     "signUp": {
       "title": "계정 만들기",
-      "subtitle": "Next JS Starter를 시작하려면 회원가입하세요",
+      "subtitle": "Payments를 시작하려면 회원가입하세요",
       "usernameLabel": "사용자 이름",
       "usernamePlaceholder": "사용자 이름을 입력하세요",
       "emailLabel": "이메일",

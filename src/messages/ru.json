@@ -1,7 +1,7 @@
 {
   "Metadata": {
-    "title": "Добро пожаловать в Next JS Starter",
-    "description": "Это административная панель для Next JS Starter"
+    "title": "Payments",
+    "description": "Панель истории платежей для мерчантов"
   },
   "Header": {
     "language": "Язык",
@@ -10,6 +10,11 @@
     "toggleSidebar": "Переключить боковую панель"
   },
   "Sidebar": {
+    "overview": "Обзор",
+    "transactions": "Транзакции",
+    "customers": "Клиенты",
+    "paymentMethods": "Способы оплаты",
+    "developers": "Разработчики",
     "dashboard": "Панель управления",
     "dev": "Разработка",
     "primitives": "Примитивы",
@@ -67,7 +72,7 @@
     },
     "signUp": {
       "title": "Создать аккаунт",
-      "subtitle": "Зарегистрируйтесь, чтобы начать работу с Next JS Starter",
+      "subtitle": "Зарегистрируйтесь, чтобы начать работу с Payments",
       "usernameLabel": "Имя пользователя",
       "usernamePlaceholder": "Введите имя пользователя",
       "emailLabel": "Электронная почта",

@@ -1,7 +1,7 @@
 {
   "Metadata": {
-    "title": "Welcome to Next JS Starter",
-    "description": "This is the admin panel for Next JS Starter"
+    "title": "Payments",
+    "description": "Merchant payment history dashboard"
   },
   "Header": {
     "language": "Language",
@@ -10,6 +10,11 @@
     "toggleSidebar": "Toggle sidebar"
   },
   "Sidebar": {
+    "overview": "Overview",
+    "transactions": "Transactions",
+    "customers": "Customers",
+    "paymentMethods": "Payment methods",
+    "developers": "Developers",
     "dashboard": "Dashboard",
     "dev": "Development",
     "primitives": "Primitives",
@@ -68,7 +73,7 @@
     },
     "signUp": {
       "title": "Create an account",
-      "subtitle": "Sign up to get started with Next JS Starter",
+      "subtitle": "Sign up to get started with Payments",
       "usernameLabel": "Username",
       "usernamePlaceholder": "Enter your username",
       "emailLabel": "Email",
