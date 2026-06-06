@@ -4,6 +4,8 @@ import { Fragment } from 'react';
 
 import { ChevronRight } from 'lucide-react';
 
+import { EnvironmentSwitch } from '@/components/shared/header/environment-switch';
+
 import { cn } from '@/lib/utils';
 
 import { useSidebar } from '@/store/sidebar';
@@ -40,6 +42,12 @@ export default function Sidebar() {
             className={cn('size-5', isMinimized ? 'rotate-0' : 'rotate-180')}
           />
         </button>
+
+        {!isMinimized && (
+          <div className="border-b p-3 lg:hidden">
+            <EnvironmentSwitch className="w-full" />
+          </div>
+        )}
 
         {/* Navigation */}
         <SidebarNav />

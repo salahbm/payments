@@ -4,9 +4,12 @@ import { useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
+import { useAlert } from '@/providers/alert';
+
 type Environment = 'sandbox' | 'production';
 
 type EnvironmentSwitchProps = {
+  className?: string;
   defaultValue?: Environment;
   onValueChange?: (value: Environment) => void;
 };
@@ -17,22 +20,47 @@ const options: Array<{ label: string; value: Environment }> = [
 ];
 
 export function EnvironmentSwitch({
+  className,
   defaultValue = 'sandbox',
   onValueChange,
 }: EnvironmentSwitchProps) {
+  const alert = useAlert();
   const [value, setValue] = useState<Environment>(defaultValue);
 
   const handleChange = (nextValue: Environment) => {
-    setValue(nextValue);
-    onValueChange?.(nextValue);
+    if (nextValue === 'production') {
+      alert({
+        title: 'Are you sure?',
+        description: 'This will switch the environment to production.',
+        confirmText: 'Switch',
+        cancelText: 'Cancel',
+        onConfirm: () => {
+          setValue(nextValue);
+          onValueChange?.(nextValue);
+        },
+      });
+    } else {
+      setValue(nextValue);
+      onValueChange?.(nextValue);
+    }
   };
 
   return (
     <div
       role="radiogroup"
       aria-label="Payment environment"
-      className="grid h-8 grid-cols-2 rounded-full border-2 border-primary bg-background p-0.5"
+      className={cn(
+        'relative grid h-9 grid-cols-2 overflow-hidden rounded-xl border bg-muted/40 p-1 shadow-xs lg:h-10',
+        className,
+      )}
     >
+      <span
+        aria-hidden
+        className={cn(
+          'absolute top-1 bottom-1 left-1 w-[calc(50%-0.25rem)] rounded-lg bg-primary shadow-sm transition-transform duration-300 ease-out',
+          value === 'production' && 'translate-x-full',
+        )}
+      />
       {options.map((option) => {
         const isActive = value === option.value;
 
@@ -44,10 +72,10 @@ export function EnvironmentSwitch({
             aria-checked={isActive}
             onClick={() => handleChange(option.value)}
             className={cn(
-              'min-w-24 rounded-full px-3 text-xs font-bold tracking-wide uppercase transition-colors',
+              'typo-body-2 relative z-1 min-w-24 rounded-lg px-3 tracking-wide uppercase transition-colors duration-300',
               isActive
-                ? 'bg-primary text-primary-foreground'
-                : 'text-foreground hover:bg-accent',
+                ? 'text-primary-foreground'
+                : 'text-muted-foreground hover:text-foreground',
             )}
           >
             {option.label}

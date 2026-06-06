@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 import { app } from '@/lib/agent';
 import { queryKeys } from '@/lib/query-keys';
@@ -40,6 +41,8 @@ export const useSignIn = () => {
         // Invalidate auth cache for this user, Spead the key and pass the id is recommended by TanStack Query docs
         queryKey: [...queryKeys.auth.all, { id: data.data.user.id }],
       });
+
+      toast.success(data.message);
     },
   });
 };

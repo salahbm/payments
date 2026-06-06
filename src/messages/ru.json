@@ -103,5 +103,42 @@
         "button": "Вернуться ко входу"
       }
     }
+  },
+  "preferences": {
+    "account": {
+      "csrState": "CSR-состояние: сохранённое хранилище",
+      "fallbackName": "Аккаунт",
+      "noSessionApi": "Session API: не требуется",
+      "noUserStored": "Пользователь не сохранён",
+      "signOut": "Выйти",
+      "signingOut": "Выход",
+      "ssrGuard": "SSR-защита: auth cookie"
+    },
+    "description": "Управляйте локальным состоянием аккаунта и настройками отображения рабочего пространства для этого задания.",
+    "environment": {
+      "description": "Переключайтесь между sandbox и production без изменения текущего аккаунта.",
+      "title": "Окружение"
+    },
+    "language": {
+      "options": {
+        "en": "English",
+        "kr": "한국어",
+        "ru": "Русский"
+      },
+      "title": "Язык"
+    },
+    "status": {
+      "signedIn": "Выполнен вход",
+      "signedOut": "Выход выполнен"
+    },
+    "theme": {
+      "options": {
+        "dark": "Тёмная",
+        "light": "Светлая",
+        "system": "Системная"
+      },
+      "title": "Тема"
+    },
+    "title": "Предпочтения"
   }
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle, CircleAlert } from 'lucide-react';
+import { CircleAlert, CircleCheck } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Toaster as Sonner, type ToasterProps } from 'sonner';
 
@@ -14,7 +14,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       position="top-center"
       icons={{
         error: <CircleAlert className="size-5 text-destructive" />,
-        success: <CheckCircle className="size-5 text-green-500" />,
+        success: <CircleCheck className="size-5 text-green-500" />,
       }}
       gap={12}
       toastOptions={{

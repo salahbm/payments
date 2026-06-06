@@ -103,5 +103,42 @@
         "button": "로그인으로 돌아가기"
       }
     }
+  },
+  "preferences": {
+    "account": {
+      "csrState": "CSR 상태: 지속 저장소",
+      "fallbackName": "계정",
+      "noSessionApi": "Session API: 필요 없음",
+      "noUserStored": "저장된 사용자가 없습니다",
+      "signOut": "로그아웃",
+      "signingOut": "로그아웃 중",
+      "ssrGuard": "SSR 보호: 인증 쿠키"
+    },
+    "description": "이 과제의 로컬 계정 상태와 작업 공간 표시 설정을 관리하세요.",
+    "environment": {
+      "description": "현재 계정을 변경하지 않고 sandbox와 production 보기 사이를 전환합니다.",
+      "title": "환경"
+    },
+    "language": {
+      "options": {
+        "en": "English",
+        "kr": "한국어",
+        "ru": "Русский"
+      },
+      "title": "언어"
+    },
+    "status": {
+      "signedIn": "로그인됨",
+      "signedOut": "로그아웃됨"
+    },
+    "theme": {
+      "options": {
+        "dark": "다크",
+        "light": "라이트",
+        "system": "시스템"
+      },
+      "title": "테마"
+    },
+    "title": "환경설정"
   }
 }

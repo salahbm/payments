@@ -104,5 +104,42 @@
         "button": "Back to sign in"
       }
     }
+  },
+  "preferences": {
+    "account": {
+      "csrState": "CSR state: persisted store",
+      "fallbackName": "Account",
+      "noSessionApi": "Session API: not required",
+      "noUserStored": "No user stored",
+      "signOut": "Sign out",
+      "signingOut": "Signing out",
+      "ssrGuard": "SSR guard: auth cookie"
+    },
+    "description": "Manage local account state and workspace display settings for this assignment.",
+    "environment": {
+      "description": "Switch between sandbox and production views without changing the current account.",
+      "title": "Environment"
+    },
+    "language": {
+      "options": {
+        "en": "English",
+        "kr": "한국어",
+        "ru": "Русский"
+      },
+      "title": "Language"
+    },
+    "status": {
+      "signedIn": "Signed in",
+      "signedOut": "Signed out"
+    },
+    "theme": {
+      "options": {
+        "dark": "Dark",
+        "light": "Light",
+        "system": "System"
+      },
+      "title": "Theme"
+    },
+    "title": "Preferences"
   }
 }
