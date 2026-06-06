@@ -1,15 +1,7 @@
-import Cookies from 'js-cookie';
-
-import { COOKIE_KEYS } from '@/constants/cookies';
-
 import { env } from '@/env';
 import { ApiPaginatedApiResponse } from '@/types/response';
 
-import { ApiError } from '../api-error';
-
-export interface AgentConfig {
-  token?: string;
-}
+import { ApiError } from './api-error';
 
 export interface RequestConfig {
   params?: Record<string, string | number | boolean | null | undefined>;
@@ -18,24 +10,11 @@ export interface RequestConfig {
   timeout?: number;
 }
 
-function getAuthorizationHeader(token?: string): string | undefined {
-  const rawToken =
-    token ??
-    (typeof window !== 'undefined'
-      ? Cookies.get(COOKIE_KEYS.ACCESS_TOKEN)
-      : undefined);
-
-  if (!rawToken) return undefined;
-
-  return rawToken.startsWith('Bearer ') ? rawToken : `Bearer ${rawToken}`;
-}
-
 function buildUrl(
   base: string,
   path: string,
   params?: Record<string, string | number | boolean | null | undefined>,
 ): string {
-  // Strip leading slash from path so it resolves relative to the full base URL
   const cleanBase = base.endsWith('/') ? base : `${base}/`;
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
   const url = new URL(cleanPath, cleanBase);
@@ -51,15 +30,15 @@ function buildUrl(
   return url.toString();
 }
 
-export class Agent {
+const origin = typeof window !== 'undefined' ? window.location.origin : '';
+
+class Agent {
   private baseURL: string;
   private defaultTimeout: number;
-  private token?: string;
 
-  constructor(config?: AgentConfig) {
-    this.baseURL = env.NEXT_PUBLIC_API_BASE_URL;
-    this.defaultTimeout = 10000;
-    this.token = config?.token;
+  constructor(baseURL: string, timeout?: number) {
+    this.baseURL = baseURL;
+    this.defaultTimeout = timeout ?? env.TIMEOUT;
   }
 
   private async request<T>(
@@ -76,11 +55,10 @@ export class Agent {
     } = config ?? {};
 
     const fullUrl = buildUrl(this.baseURL, url, params);
-    const authorization = getAuthorizationHeader(this.token);
+    const isServer = typeof window === 'undefined';
 
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      ...(authorization ? { Authorization: authorization } : {}),
       ...configHeaders,
     };
 
@@ -105,10 +83,12 @@ export class Agent {
         headers,
         body: body !== undefined ? JSON.stringify(body) : undefined,
         signal: controller.signal,
+        // credentials only applies in browser — sends httpOnly cookies automatically
+        ...(isServer ? {} : { credentials: 'include' as const }),
       });
     } catch (error) {
       clearTimeout(timeoutId);
-
+      // In case of timeout or cancellation
       if (error instanceof Error && error.name === 'AbortError') {
         throw new ApiError(
           0,
@@ -116,6 +96,7 @@ export class Agent {
         );
       }
 
+      // In case of other errors, eg. network issues
       throw new ApiError(0, 'Network error - Please check your connection');
     }
 
@@ -187,4 +168,8 @@ export class Agent {
   }
 }
 
-export const agent = new Agent();
+/** Agent for external backend API calls */
+export const api = new Agent(env.NEXT_PUBLIC_API_BASE_URL);
+
+/** Agent for internal Next.js API routes (same-origin) */
+export const app = new Agent(origin);

@@ -143,6 +143,7 @@ const AlertContent: React.FC<IAlertContent> = memo(
                 onClick={async () => {
                   await Promise.resolve(onCancel).then(onCancelProp);
                 }}
+                className={cn('flex-1', cancelButton?.className)}
                 {...cancelButton}
               >
                 {cancelText}
@@ -152,6 +153,7 @@ const AlertContent: React.FC<IAlertContent> = memo(
               onClick={async () =>
                 await Promise.resolve(onConfirm).then(onConfirmProp)
               }
+              className={cn('flex-1', confirmButton?.className)}
               {...confirmButton}
             >
               {confirmText}
@@ -206,17 +208,15 @@ const AlertContent: React.FC<IAlertContent> = memo(
             <span className="mb-5 flex-center w-full">{renderIcon}</span>
           )}
           {title && (
-            <AlertDialogTitle {...alertDialogTitle}>
-              {title ?? description}
-            </AlertDialogTitle>
+            <AlertDialogTitle {...alertDialogTitle}>{title}</AlertDialogTitle>
           )}
           {description && (
             <AlertDialogDescription
               id="alert-dialog-description"
               {...alertDialogDescription}
-              className="mt-1 text-center"
+              className="mt-1"
             >
-              {description ?? title}
+              {description}
             </AlertDialogDescription>
           )}
           {contentSlot}
