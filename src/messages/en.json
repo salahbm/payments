@@ -1,0 +1,103 @@
+{
+  "Metadata": {
+    "title": "Welcome to Next JS Starter",
+    "description": "This is the admin panel for Next JS Starter"
+  },
+  "Header": {
+    "language": "Language",
+    "profile": "Profile",
+    "theme": "Theme",
+    "toggleSidebar": "Toggle sidebar"
+  },
+  "Sidebar": {
+    "dashboard": "Dashboard",
+    "dev": "Development",
+    "primitives": "Primitives",
+    "preferences": "Preferences",
+    "table": "Table",
+    "forms": "Forms"
+  },
+
+  "Common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "view": "View",
+    "search": "Search",
+    "noData": "There is no data",
+    "date": "Date",
+    "time": "Time",
+    "reset": "Reset",
+    "hide": "Hide",
+    "selectFiles": "Select files",
+    "uploadMore": "Upload more",
+    "removeAllFiles": "Remove all files",
+    "placeholder": {
+      "date": "Select date",
+      "time": "Select time",
+      "datetime": "Select date and time",
+      "selectItem": "Select item",
+      "selectItems": "Select items",
+      "enterValue": "Enter value",
+      "selectEndDate": "Select end date"
+    },
+    "messages": {
+      "dropYourFilesHere": "Drop your files here",
+      "fileSize": "File size must be less than {maxSize}",
+      "fileType": "File type must be {accept}",
+      "fileCount": "File count must be less than {maxFiles}",
+      "fileUpload": "File upload failed",
+      "fileAcceptType": "File type must be {accept}"
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account to continue",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Enter your email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot password?",
+      "button": "Sign in",
+      "buttonLoading": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up"
+    },
+    "signUp": {
+      "title": "Create an account",
+      "subtitle": "Sign up to get started with Next JS Starter",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Enter your username",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Enter your email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "confirmPasswordLabel": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "button": "Sign up",
+      "buttonLoading": "Creating account...",
+      "haveAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "passwordHint": "Must contain uppercase, lowercase, number, and special character"
+    },
+    "forgotPassword": {
+      "title": "Reset your password",
+      "subtitle": "Enter your email address and we'll send you a link to reset your password",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Enter your email",
+      "button": "Send reset link",
+      "buttonLoading": "Sending reset link...",
+      "backToSignIn": "Back to sign in"
+    },
+    "success": {
+      "resetLinkSent": {
+        "title": "Check your email",
+        "message": "We've sent a password reset link to your email address",
+        "button": "Back to sign in"
+      }
+    }
+  }
+}

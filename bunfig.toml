@@ -1,0 +1,11 @@
+[install]
+exact = true
+
+[install.cache]
+dir = "node_modules/.cache/bun"
+
+[test]
+coverage = true
+
+[debug]
+rewrite-imports = true
