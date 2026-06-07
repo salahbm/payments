@@ -31,6 +31,7 @@
     "view": "보기",
     "search": "검색",
     "noData": "데이터가 없습니다",
+    "scrollToTop": "맨 위로 이동",
     "date": "날짜",
     "time": "시간",
     "reset": "초기화",
@@ -104,6 +105,40 @@
         "button": "로그인으로 돌아가기"
       }
     }
+  },
+  "dashboard": {
+    "charts": {
+      "amount": {
+        "amount": "금액",
+        "subtitle": "불러온 거래 샘플의 시간별 승인 금액입니다.",
+        "title": "시간별 금액 추이"
+      },
+      "customers": {
+        "failed": "실패",
+        "pending": "대기 중",
+        "refunded": "환불됨",
+        "spending": "지출",
+        "subtitle": "고객별 지출과 상태 비율 라인을 보여줍니다.",
+        "succeeded": "성공",
+        "title": "고객 지출 및 상태",
+        "transactions": "거래 {count}건"
+      },
+      "empty": "차트 데이터가 없습니다",
+      "status": {
+        "count": "거래",
+        "subtitle": "현재 결제 상태별 거래 분포입니다.",
+        "title": "상태 분포"
+      }
+    },
+    "description": "실시간 거래 피드로 구성한 결제 현황입니다.",
+    "metrics": {
+      "amount": "불러온 금액",
+      "customers": "고객",
+      "succeeded": "성공",
+      "transactions": "거래"
+    },
+    "sample": "불러온 거래 {count}건으로 차트를 표시합니다",
+    "title": "개요"
   },
   "preferences": {
     "account": {

@@ -32,6 +32,7 @@
     "view": "View",
     "search": "Search",
     "noData": "There is no data",
+    "scrollToTop": "Scroll to top",
     "date": "Date",
     "time": "Time",
     "reset": "Reset",
@@ -105,6 +106,40 @@
         "button": "Back to sign in"
       }
     }
+  },
+  "dashboard": {
+    "charts": {
+      "amount": {
+        "amount": "Amount",
+        "subtitle": "Hourly authorized volume in the loaded transaction sample.",
+        "title": "Hourly amount trend"
+      },
+      "customers": {
+        "failed": "Failed",
+        "pending": "Pending",
+        "refunded": "Refunded",
+        "spending": "Spending",
+        "subtitle": "Top customers by spend with status-rate lines for their transactions.",
+        "succeeded": "Succeeded",
+        "title": "Customer spending and status",
+        "transactions": "{count} transactions"
+      },
+      "empty": "No chart data available",
+      "status": {
+        "count": "Transactions",
+        "subtitle": "Distribution of transactions by current payment status.",
+        "title": "Status distribution"
+      }
+    },
+    "description": "A visual payment overview built from the live transaction feed.",
+    "metrics": {
+      "amount": "Loaded amount",
+      "customers": "Customers",
+      "succeeded": "Succeeded",
+      "transactions": "Transactions"
+    },
+    "sample": "Showing charts from {count} loaded transactions",
+    "title": "Overview"
   },
   "preferences": {
     "account": {

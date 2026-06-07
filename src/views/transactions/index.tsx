@@ -9,6 +9,7 @@ import { useTranslations } from 'next-intl';
 import { useQueryState } from 'nuqs';
 import { useForm } from 'react-hook-form';
 
+import { ScrollToTop } from '@/components/shared/scroll-to-top';
 import { DataTableSkeleton } from '@/components/skeletons/data-table-skeleton';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
@@ -207,7 +208,7 @@ export default function TransactionsView() {
   const handleDownload = () => downloadTransactions(filteredData, t);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="relative flex flex-col gap-6">
       <div className="flex flex-col-reverse items-start justify-between gap-2 lg:flex-row">
         <div className="flex flex-col gap-2">
           <h1 className="typo-header">{t('title')}</h1>
@@ -290,6 +291,7 @@ export default function TransactionsView() {
           </p>
         )}
       </div>
+      <ScrollToTop />
     </div>
   );
 }
