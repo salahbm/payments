@@ -27,4 +27,13 @@ export const queryKeys = {
     list: ['users', 'list'] as const,
     detail: ['users', 'detail'] as const,
   },
+
+  // ============================================
+  // TRANSACTIONS
+  // ============================================
+  transactions: {
+    all: ['transactions'] as const,
+    detail: ['transactions', 'detail'] as const,
+    list: ['transactions', 'list'] as const,
+  },
 } as const;

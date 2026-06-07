@@ -140,5 +140,64 @@
       "title": "테마"
     },
     "title": "환경설정"
+  },
+  "transactionDetail": {
+    "back": "거래 목록으로",
+    "customer": {
+      "email": "이메일",
+      "name": "이름",
+      "title": "고객"
+    },
+    "notFound": {
+      "description": "선택한 환경에서 이 거래를 찾을 수 없습니다.",
+      "title": "거래를 찾을 수 없습니다"
+    },
+    "paymentMethod": {
+      "brand": "브랜드",
+      "expiry": "만료일",
+      "last4": "카드",
+      "title": "결제 수단"
+    },
+    "status": {
+      "failed": "실패",
+      "pending": "대기 중",
+      "succeeded": "성공"
+    },
+    "summary": {
+      "amount": "금액",
+      "createdAt": "생성일",
+      "order": "주문"
+    },
+    "sync": {
+      "live": "10초마다 자동 새로고침",
+      "syncing": "최신 거래 상태 동기화 중"
+    },
+    "timeline": {
+      "latest": "최신",
+      "title": "이벤트 타임라인"
+    }
+  },
+  "transactions": {
+    "description": "자동 새로고침으로 Sandbox와 Production 결제 내역을 확인하세요.",
+    "searchPlaceholder": "거래, 고객, 상태 검색...",
+    "status": {
+      "failed": "실패",
+      "pending": "대기 중",
+      "succeeded": "성공"
+    },
+    "sync": {
+      "lastUpdated": "{time}에 마지막 동기화",
+      "never": "없음",
+      "syncing": "최신 거래 동기화 중"
+    },
+    "table": {
+      "amount": "금액",
+      "createdAt": "생성일",
+      "currency": "통화",
+      "customer": "고객",
+      "id": "ID",
+      "status": "상태"
+    },
+    "title": "거래"
   }
 }

@@ -123,8 +123,7 @@
     "language": {
       "options": {
         "en": "English",
-        "kr": "한국어",
-        "ru": "Русский"
+        "kr": "한국어"
       },
       "title": "Language"
     },
@@ -141,5 +140,65 @@
       "title": "Theme"
     },
     "title": "Preferences"
+  },
+  "transactionDetail": {
+    "back": "Back to transactions",
+    "customer": {
+      "email": "Email",
+      "name": "Name",
+      "title": "Customer"
+    },
+    "notFound": {
+      "description": "This transaction could not be found in the selected environment.",
+      "title": "Transaction not found"
+    },
+    "paymentMethod": {
+      "brand": "Brand",
+      "expiry": "Expiry",
+      "last4": "Card",
+      "title": "Payment method"
+    },
+    "status": {
+      "failed": "Failed",
+      "pending": "Pending",
+      "succeeded": "Succeeded"
+    },
+    "summary": {
+      "amount": "Amount",
+      "createdAt": "Created at",
+      "order": "Order"
+    },
+    "sync": {
+      "live": "Auto-refreshing every 10 seconds",
+      "syncing": "Syncing latest transaction state"
+    },
+    "timeline": {
+      "latest": "Latest",
+      "title": "Event timeline"
+    }
+  },
+  "transactions": {
+    "description": "Review payment history across Sandbox and Production with automatic refresh.",
+    "searchPlaceholder": "Search transaction, customer, status...",
+    "status": {
+      "failed": "Failed",
+      "pending": "Pending",
+      "succeeded": "Succeeded",
+      "refunded": "Refunded"
+    },
+    "sync": {
+      "lastUpdated": "Last synced at {time}",
+      "never": "never",
+      "syncing": "Syncing latest transactions"
+    },
+    "table": {
+      "amount": "Amount",
+      "createdAt": "Created at",
+      "currency": "Currency",
+      "customer": "Customer",
+      "id": "ID",
+      "status": "Status"
+    },
+    "title": "Transactions"
   }
 }

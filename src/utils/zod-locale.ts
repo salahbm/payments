@@ -53,42 +53,6 @@ export const enLocale = (): z.ZodErrorMap => {
   };
 };
 
-/** Russian custom error map */
-export const ruLocale = (): z.ZodErrorMap => {
-  return (issue) => {
-    // App-specific custom codes
-    if (issue.code === 'custom') {
-      switch (issue.params?.customCode) {
-        case 'custom.required':
-          return 'Обязательное поле';
-        case 'custom.email_invalid':
-          return 'Пожалуйста, введите действительный адрес электронной почты';
-        case 'custom.password_min':
-          return 'Пароль должен содержать не менее 6 символов';
-        case 'custom.password_strong':
-          return 'Пароль должен содержать заглавную, строчную букву, цифру и спецсимвол';
-        case 'custom.password_match':
-          return 'Пароли не совпадают';
-        case 'custom.username_min':
-          return 'Имя пользователя должно содержать не менее 3 символов';
-      }
-    }
-
-    // Override standard Zod messages for natural Russian
-    if (issue.code === 'invalid_format' && issue.format === 'email') {
-      return 'Пожалуйста, введите корректный email';
-    }
-    if (issue.code === 'too_small' && issue.origin === 'string') {
-      return `Минимум ${issue.minimum} символов`;
-    }
-    if (issue.code === 'invalid_type' && issue.input === undefined) {
-      return 'Обязательное поле';
-    }
-
-    return undefined;
-  };
-};
-
 /** Korean custom error map */
 export const krLocale = (): z.ZodErrorMap => {
   return (issue) => {
@@ -130,7 +94,6 @@ export const krLocale = (): z.ZodErrorMap => {
 // ---------------------------------------------------------------------------
 const customErrorMaps: Record<Locale, () => z.ZodErrorMap> = {
   en: enLocale,
-  ru: ruLocale,
   kr: krLocale,
 };
 

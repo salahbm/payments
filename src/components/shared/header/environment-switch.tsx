@@ -1,12 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-
 import { cn } from '@/lib/utils';
 
 import { useAlert } from '@/providers/alert';
-
-type Environment = 'sandbox' | 'production';
+import { useEnvironmentStore } from '@/store/environment-store';
+import { Environment } from '@/types/transaction';
 
 type EnvironmentSwitchProps = {
   className?: string;
@@ -21,13 +19,19 @@ const options: Array<{ label: string; value: Environment }> = [
 
 export function EnvironmentSwitch({
   className,
-  defaultValue = 'sandbox',
   onValueChange,
 }: EnvironmentSwitchProps) {
   const alert = useAlert();
-  const [value, setValue] = useState<Environment>(defaultValue);
+  const { environment: value, setEnvironment } = useEnvironmentStore();
+
+  const commitChange = (nextValue: Environment) => {
+    setEnvironment(nextValue);
+    onValueChange?.(nextValue);
+  };
 
   const handleChange = (nextValue: Environment) => {
+    if (nextValue === value) return;
+
     if (nextValue === 'production') {
       alert({
         title: 'Are you sure?',
@@ -35,13 +39,11 @@ export function EnvironmentSwitch({
         confirmText: 'Switch',
         cancelText: 'Cancel',
         onConfirm: () => {
-          setValue(nextValue);
-          onValueChange?.(nextValue);
+          commitChange(nextValue);
         },
       });
     } else {
-      setValue(nextValue);
-      onValueChange?.(nextValue);
+      commitChange(nextValue);
     }
   };
 

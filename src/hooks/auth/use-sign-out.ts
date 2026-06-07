@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 import { app } from '@/lib/agent';
 import { queryClient } from '@/lib/query-client';
@@ -16,10 +17,12 @@ export const useSignOut = () => {
 
   return useMutation({
     mutationFn: signOut,
-    onSuccess: () => {
+    onSuccess: (data) => {
       removeUser();
       queryClient.clear();
       router.replace(routes.signIn);
+
+      toast.success(data.message);
     },
   });
 };

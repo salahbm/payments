@@ -24,12 +24,6 @@ export function LanguageMenuItems() {
           <Check className="ml-auto h-4 w-4 text-primary" />
         )}
       </DropdownMenuItem>
-      <DropdownMenuItem onClick={() => handleLocale('ru')}>
-        Русский
-        {currentLocale === 'ru' && (
-          <Check className="ml-auto h-4 w-4 text-primary" />
-        )}
-      </DropdownMenuItem>
       <DropdownMenuItem onClick={() => handleLocale('kr')}>
         한국어
         {currentLocale === 'kr' && (

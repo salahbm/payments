@@ -1,7 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { app } from '@/lib/agent';
+import { queryClient } from '@/lib/query-client';
 import { queryKeys } from '@/lib/query-keys';
 
 import { useUserStore } from '@/store/user-store';
@@ -29,7 +30,6 @@ const signIn = async (values: SignInType) =>
   await app.post<ApiResponse<{ user: User }>>('/api/auth/sign-in', values);
 
 export const useSignIn = () => {
-  const queryClient = useQueryClient();
   const { setUser, setIsLoggedIn } = useUserStore();
 
   return useMutation({

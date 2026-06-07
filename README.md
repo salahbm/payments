@@ -36,6 +36,62 @@ bun run dev
 
 Open [http://localhost:3000](http://localhost:3000). Routes are locale-prefixed, so the app will serve pages such as `/en`, `/ru`, and `/kr`.
 
+## Hopae Assignment Notes
+
+Run the mock server from the provided assignment folder:
+
+```bash
+cd /path/to/hopae-swe-assignment/mock-server
+pnpm install
+pnpm seed
+pnpm start
+```
+
+Run this app with the mock server URL:
+
+```bash
+NEXT_PUBLIC_API_BASE_URL=http://localhost:4000 bun run dev
+```
+
+Implemented screens:
+
+- Login through the Next.js BFF route at `/api/auth/sign-in`
+- Transaction list at `/en/transactions`
+- Transaction detail at `/en/transactions/:id`
+- Preferences at `/en/preferences`
+
+Main library choices:
+
+- TanStack Query: request caching, loading states, and automatic polling for near real-time updates.
+- TanStack Table: shared table behavior and column definitions for the transaction list.
+- Zustand: lightweight persisted client state for the selected environment and interview-assignment auth UI state.
+- next-intl: locale-prefixed routing and translated view copy.
+- Zod: runtime validation for environment values in BFF route handlers.
+
+Environment state:
+
+- The selected environment is stored in persisted Zustand state (`environment-store`).
+- This keeps Sandbox/Production stable across reloads and lets the header, sidebar, list, and detail screen share one source of truth.
+- Production switching uses a confirmation prompt because it is a higher-risk environment.
+
+Near real-time updates:
+
+- The transaction list and detail screen refetch every 10 seconds with TanStack Query.
+- This matches the mock server mutation cadence without adding extra server changes or websocket complexity.
+- While a detail page is open, it uses the currently selected environment and continues polling the same transaction ID.
+
+API decisions:
+
+- Client code calls only the Next.js BFF (`app` agent), not the backend mock server directly.
+- BFF routes read the httpOnly auth cookie and forward `Authorization` to the backend.
+- The backend list endpoint takes `env` as a query param while detail requires `X-Environment`; the BFF normalizes this so client code can pass `env` consistently as a query param.
+
+Simplifications:
+
+- The list fetches the first cursor page using the selected page size. Cursor history is intentionally not expanded into full random-access pagination.
+- Search is client-side over the currently loaded page because the provided API does not expose search.
+- Polling is used instead of SSE/websockets to keep the implementation clear for the assignment scope.
+
 ## Scripts
 
 ```bash
