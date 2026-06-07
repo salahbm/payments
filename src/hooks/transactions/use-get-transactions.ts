@@ -1,4 +1,4 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { app } from '@/lib/agent';
 import { queryKeys } from '@/lib/query-keys';
@@ -6,7 +6,6 @@ import { queryKeys } from '@/lib/query-keys';
 import { Environment, TransactionsResponse } from '@/types/transaction';
 
 interface GetTransactionsParams {
-  cursor?: string | null;
   environment: Environment;
   limit: number;
 }
@@ -17,7 +16,7 @@ const getTransactions = ({
   cursor,
   environment,
   limit,
-}: GetTransactionsParams) =>
+}: GetTransactionsParams & { cursor?: string | null }) =>
   app.get<TransactionsResponse>('/api/transactions', {
     params: {
       cursor,
@@ -27,10 +26,15 @@ const getTransactions = ({
   });
 
 export const useGetTransactions = (params: GetTransactionsParams) =>
-  useQuery({
+  useInfiniteQuery({
     queryKey: [...queryKeys.transactions.list, { ...params }],
-    queryFn: () => getTransactions(params),
-    placeholderData: keepPreviousData,
+    queryFn: ({ pageParam }) =>
+      getTransactions({
+        ...params,
+        cursor: pageParam,
+      }),
+    initialPageParam: null as string | null,
+    getNextPageParam: (lastPage) => lastPage.next_cursor,
     refetchInterval: TRANSACTIONS_REFETCH_INTERVAL,
     refetchIntervalInBackground: false,
   });

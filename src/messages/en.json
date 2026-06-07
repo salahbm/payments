@@ -43,6 +43,7 @@
       "date": "Select date",
       "time": "Select time",
       "datetime": "Select date and time",
+      "dateRange": "Select date range",
       "selectItem": "Select item",
       "selectItems": "Select items",
       "enterValue": "Enter value",
@@ -161,6 +162,7 @@
     "status": {
       "failed": "Failed",
       "pending": "Pending",
+      "refunded": "Refunded",
       "succeeded": "Succeeded"
     },
     "summary": {
@@ -173,18 +175,41 @@
       "syncing": "Syncing latest transaction state"
     },
     "timeline": {
+      "emptyDescription": "No transaction events have been recorded yet.",
+      "emptyTitle": "No events yet",
       "latest": "Latest",
       "title": "Event timeline"
     }
   },
   "transactions": {
+    "actions": {
+      "confirm": "Confirm",
+      "download": "Download Excel",
+      "loadMore": "Load more",
+      "reset": "Reset"
+    },
     "description": "Review payment history across Sandbox and Production with automatic refresh.",
+    "empty": {
+      "description": "Transactions will appear here once the selected environment has activity.",
+      "filteredDescription": "Try changing the search, status, or time window filters.",
+      "filteredTitle": "No transactions match",
+      "title": "No transactions yet"
+    },
+    "endOfList": "All loaded transactions are shown.",
+    "filters": {
+      "dateRange": "Select date range",
+      "search": "Search",
+      "status": "Status",
+      "timeWindow": "Time window"
+    },
+    "resultCount": "{count} of {total} loaded transactions",
     "searchPlaceholder": "Search transaction, customer, status...",
     "status": {
+      "all": "All",
       "failed": "Failed",
       "pending": "Pending",
-      "succeeded": "Succeeded",
-      "refunded": "Refunded"
+      "refunded": "Refunded",
+      "succeeded": "Succeeded"
     },
     "sync": {
       "lastUpdated": "Last synced at {time}",
@@ -196,6 +221,7 @@
       "createdAt": "Created at",
       "currency": "Currency",
       "customer": "Customer",
+      "email": "Email",
       "id": "ID",
       "status": "Status"
     },

@@ -155,28 +155,37 @@ export default function TransactionDetailView({
 
         <section className="rounded border bg-background p-4 md:p-5">
           <h2 className="typo-body-1 mb-4">{t('timeline.title')}</h2>
-          <ol className="space-y-4">
-            {data.events.map((event, index) => (
-              <li key={`${event.type}-${event.at}`} className="flex gap-3">
-                <span className="mt-1 flex size-6 shrink-0 items-center justify-center rounded-full border bg-background">
-                  <span className="size-2 rounded-full bg-primary" />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="typo-body-2">{event.type}</span>
-                    {index === data.events.length - 1 && (
-                      <span className="typo-caption-2 rounded bg-muted px-2 py-0.5 text-muted-foreground">
-                        {t('timeline.latest')}
-                      </span>
-                    )}
+          {data.events.length ? (
+            <ol className="space-y-4">
+              {data.events.map((event, index) => (
+                <li key={`${event.type}-${event.at}`} className="flex gap-3">
+                  <span className="mt-1 flex size-6 shrink-0 items-center justify-center rounded-full border bg-background">
+                    <span className="size-2 rounded-full bg-primary" />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="typo-body-2">{event.type}</span>
+                      {index === data.events.length - 1 && (
+                        <span className="typo-caption-2 rounded bg-muted px-2 py-0.5 text-muted-foreground">
+                          {t('timeline.latest')}
+                        </span>
+                      )}
+                    </div>
+                    <p className="typo-caption-1 mt-1 text-muted-foreground">
+                      {format(formatTransactionDate(event.at), 'PPP p')}
+                    </p>
                   </div>
-                  <p className="typo-caption-1 mt-1 text-muted-foreground">
-                    {format(formatTransactionDate(event.at), 'PPP p')}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ol>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <div className="rounded border border-dashed p-6 text-center">
+              <p className="typo-body-1">{t('timeline.emptyTitle')}</p>
+              <p className="typo-body-2 mt-2 text-muted-foreground">
+                {t('timeline.emptyDescription')}
+              </p>
+            </div>
+          )}
         </section>
       </div>
     </div>

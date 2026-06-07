@@ -42,6 +42,7 @@
       "date": "날짜 선택",
       "time": "시간 선택",
       "datetime": "날짜 및 시간 선택",
+      "dateRange": "날짜 범위 선택",
       "selectItem": "항목 선택",
       "selectItems": "항목 선택",
       "enterValue": "값 입력",
@@ -161,6 +162,7 @@
     "status": {
       "failed": "실패",
       "pending": "대기 중",
+      "refunded": "환불됨",
       "succeeded": "성공"
     },
     "summary": {
@@ -173,16 +175,40 @@
       "syncing": "최신 거래 상태 동기화 중"
     },
     "timeline": {
+      "emptyDescription": "아직 기록된 거래 이벤트가 없습니다.",
+      "emptyTitle": "이벤트 없음",
       "latest": "최신",
       "title": "이벤트 타임라인"
     }
   },
   "transactions": {
+    "actions": {
+      "confirm": "확인",
+      "download": "Excel 다운로드",
+      "loadMore": "더 불러오기",
+      "reset": "초기화"
+    },
     "description": "자동 새로고침으로 Sandbox와 Production 결제 내역을 확인하세요.",
+    "empty": {
+      "description": "선택한 환경에 활동이 생기면 거래가 여기에 표시됩니다.",
+      "filteredDescription": "검색어, 상태 또는 기간 필터를 변경해 보세요.",
+      "filteredTitle": "일치하는 거래가 없습니다",
+      "title": "아직 거래가 없습니다"
+    },
+    "endOfList": "불러온 모든 거래를 표시했습니다.",
+    "filters": {
+      "dateRange": "날짜 범위 선택",
+      "search": "검색",
+      "status": "상태",
+      "timeWindow": "기간"
+    },
+    "resultCount": "불러온 거래 {total}개 중 {count}개",
     "searchPlaceholder": "거래, 고객, 상태 검색...",
     "status": {
+      "all": "전체",
       "failed": "실패",
       "pending": "대기 중",
+      "refunded": "환불됨",
       "succeeded": "성공"
     },
     "sync": {
@@ -195,6 +221,7 @@
       "createdAt": "생성일",
       "currency": "통화",
       "customer": "고객",
+      "email": "이메일",
       "id": "ID",
       "status": "상태"
     },

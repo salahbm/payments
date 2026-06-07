@@ -26,5 +26,6 @@
   "eslint.run": "onSave",
   "prettier.requireConfig": true,
   "i18n-ally.localesPaths": ["src/i18n", "src/messages"],
-  "css.lint.unknownAtRules": "ignore"
+  "css.lint.unknownAtRules": "ignore",
+  "i18n-ally.keystyle": "nested"
 }

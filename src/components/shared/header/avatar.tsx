@@ -1,5 +1,7 @@
 'use client';
 
+import { useMemo } from 'react';
+
 import { Globe, Palette, User } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -25,6 +27,15 @@ const Avatar = () => {
   const { isLoggedIn, user } = useUserStore();
   const { mutate: signOut, isPending } = useSignOut();
 
+  const userInitials = useMemo(() => {
+    return (
+      user?.name
+        ?.split(' ')
+        ?.map((name) => name[0])
+        ?.join('') || ''
+    );
+  }, [user]);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -34,13 +45,17 @@ const Avatar = () => {
           className="rounded-full"
           disabled={isPending}
         >
-          <User className="h-[1.2rem] w-[1.2rem]" />
+          {userInitials ? (
+            <span className="typo-body-2">{userInitials}</span>
+          ) : (
+            <User className="h-[1.2rem] w-[1.2rem]" />
+          )}
           <span className="sr-only">Avatar</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" forceMount className="w-52">
         <DropdownMenuItem asChild>
-          <Link href={routes.preferences}>{user?.name || 'Profile'}</Link>
+          <Link href={routes.preferences}> Profile</Link>
         </DropdownMenuItem>
         {isLoggedIn && (
           <>

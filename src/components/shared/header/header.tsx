@@ -51,7 +51,7 @@ export default function Header() {
           </h1>
         </Link>
         {/* </div> */}
-        <div className="flex items-center gap-1 lg:gap-3">
+        <div className="flex items-center gap-1 lg:gap-4">
           {isLoggedIn ? (
             <>
               <EnvironmentSwitch className="hidden lg:grid" />
