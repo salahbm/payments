@@ -103,6 +103,10 @@ export default function TransactionsView() {
       ),
     [failed, pending, refunded, succeeded],
   );
+  const hasActiveFilters =
+    Boolean(activeFilters.search.trim()) ||
+    Boolean(activeFilters.interval?.from || activeFilters.interval?.to) ||
+    selectedStatuses.size !== TRANSACTION_STATUSES.length;
   const rows = useMemo(
     () => data?.pages.flatMap((page) => page.data) ?? [],
     [data?.pages],
@@ -207,6 +211,7 @@ export default function TransactionsView() {
   });
 
   const loadMoreRef = useLoadMoreOnIntersect({
+    enabled: !hasActiveFilters,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
