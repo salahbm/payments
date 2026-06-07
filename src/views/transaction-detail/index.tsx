@@ -73,6 +73,7 @@ export default function TransactionDetailView({
     await navigator.clipboard.writeText(value);
     toast.success(message);
   };
+  const timelineEvents = [...data.events].reverse();
 
   return (
     <div className="flex flex-col gap-6">
@@ -208,7 +209,7 @@ export default function TransactionDetailView({
           <h2 className="typo-body-1 mb-4">{t('timeline.title')}</h2>
           {data.events.length ? (
             <ol className="relative space-y-0 pl-8 before:absolute before:top-3 before:bottom-3 before:left-3 before:w-px before:bg-border">
-              {data.events.reverse().map((event, index) => (
+              {timelineEvents.map((event, index) => (
                 <li
                   key={`${event.type}-${event.at}`}
                   className="relative pb-5 last:pb-0"
@@ -227,7 +228,7 @@ export default function TransactionDetailView({
                           {format(formatTransactionDate(event.at), 'PPP p')}
                         </p>
                       </div>
-                      {index === data.events.length - 1 && (
+                      {index === 0 && (
                         <span className="typo-caption-2 rounded bg-muted px-2 py-0.5 text-muted-foreground">
                           {t('timeline.latest')}
                         </span>

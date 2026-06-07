@@ -1,43 +1,10 @@
-# Overview
+# Payment Dashboard Submission
 
-This project is developed by myself, to bootstap developing time and serve as a starting point for future projects. You can see the commit history to understand the development process and decisions. [https://github.com/salahbm/nextjs-starter.git](https://github.com/salahbm/nextjs-starter.git)
-Also you can read more about this project on [docs/production-tooling.md](docs/production-tooling.md)
+This repository is my implementation of the merchant payment-history
+assignment. It covers login, Sandbox/Production switching, transaction
+list/detail views, and near real-time refresh against the provided mock server.
 
-## Stack
-
-- [Next.js 16](https://nextjs.org/) App Router
-- [React 19](https://react.dev/)
-- [Bun](https://bun.sh/) for package management and scripts
-- [Tailwind CSS 4](https://tailwindcss.com/) with CSS-first configuration
-- [TypeScript 6](https://www.typescriptlang.org/)
-- [next-intl](https://next-intl.dev/) for locale routing and translations
-- [t3-env](https://env.t3.gg/) for typed environment variables
-- [TanStack Query](https://tanstack.com/query/latest) and [TanStack Table](https://tanstack.com/table/latest)
-- [React Hook Form](https://react-hook-form.com/) and [Zod](https://zod.dev/)
-- [Radix UI](https://www.radix-ui.com/) primitives with local UI wrappers
-- [Zustand](https://github.com/pmndrs/zustand) for state management
-- [shadcn/ui](https://ui.shadcn.com/) for UI components
-- [Nuqs](https://nuqs.47ng.com/) for URL state management
-- [Sentry](https://sentry.io/) instrumentation
-- [Vitest](https://vitest.dev/), [Playwright](https://playwright.dev/), [Ladle](https://ladle.dev/), and [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci)
-
-## Getting Started
-
-Install dependencies:
-
-```bash
-bun install
-```
-
-Start the development server:
-
-```bash
-bun run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000). Routes are locale-prefixed, so the app will serve pages such as `/en` and `/kr`.
-
-### How To Run
+## How To Run
 
 Run the provided mock server first:
 
@@ -87,7 +54,7 @@ bun run test
 bun run test:e2e
 ```
 
-### Implemented Screens
+## Implemented Screens
 
 - Login: `/en/sign-in`
 - Dashboard overview: `/en`
@@ -95,9 +62,9 @@ bun run test:e2e
 - Transaction detail: `/en/transactions/:id`
 - Preferences: `/en/preferences`
 
-### Architecture
+## Architecture
 
-The app uses a BFF-style architecture:
+The app uses a small BFF layer through Next.js route handlers:
 
 ```text
 Browser UI
@@ -118,7 +85,7 @@ src/messages/            next-intl translation dictionaries
 tests/e2e/               Playwright browser tests
 ```
 
-### Main Libraries And Why
+## Main Libraries And Why
 
 - Next.js App Router: gives route handlers for BFF endpoints, localized routing, SSR-ready page structure, and a clean protected-route proxy.
 - React + TypeScript: strong typing for transaction, auth, and API contracts while keeping UI composition straightforward.
@@ -134,26 +101,25 @@ tests/e2e/               Playwright browser tests
 - Vitest + React Testing Library: fast unit/component tests.
 - Playwright: browser-level sign-in and navigation coverage.
 
-### Why BFF Instead Of Direct Backend Calls
+## Why BFF Instead Of Direct Backend Calls
 
 Login goes through `POST /api/auth/sign-in` instead of calling the mock server directly from the browser.
 
-Reasons:
-
-- The access token is stored in an httpOnly cookie, so client JavaScript cannot read or leak it.
-- Next.js route handlers can read that cookie server-side and attach `Authorization` when forwarding requests.
-- The client has one same-origin API surface, which avoids exposing backend details across the UI.
-- The BFF normalizes API inconsistencies. For example, the list endpoint accepts `env` as a query param, while detail expects `X-Environment`; the frontend still passes env consistently.
-- This mirrors common enterprise admin patterns where web clients talk to a frontend-owned backend layer for auth, audit, policy, rate limiting, and API composition.
+I chose this mainly to keep the token in an httpOnly cookie. The browser never
+needs to read the token directly, while the route handlers can attach
+`Authorization` when they forward requests to the mock server. It also gives the
+client one same-origin API surface and lets the BFF smooth over small backend
+inconsistencies, like `env` being a query param on the list endpoint but
+`X-Environment` on the detail endpoint.
 
 I still keep `agent.ts` because there are two useful clients:
 
 - `app`: browser-safe same-origin client for `/api/*` BFF calls.
 - `api`: server-side client used inside route handlers to call the mock backend.
 
-### Environment State
+## Environment State
 
-The selected Sandbox/Production environment is stored in persisted Zustand state:
+The selected Sandbox/Production environment lives in persisted Zustand state:
 
 ```text
 src/store/environment-store.ts
@@ -161,18 +127,26 @@ localStorage key: environment-store
 default: sandbox
 ```
 
-Why store it this way:
+I treated environment as a dashboard-level preference, not just a table filter.
+The header, list, detail page, and dashboard charts all need to agree on it, and
+it should survive a reload so the user does not accidentally bounce back to
+Sandbox or Production mid-workflow.
 
-- Environment is a global dashboard preference, not just a table filter.
-- Header, sidebar, transaction list, dashboard charts, and detail pages need the same value.
-- It should survive reloads because merchants expect their selected environment to remain stable.
-- Keeping it out of the URL avoids noisy URLs and accidental sharing of a Production view link as if env were part of the resource identity.
+The tradeoff is that a URL-based env would make bookmarking and sharing a
+specific environment view easier. I kept it out of the URL because the env
+changes the meaning of the whole console, not only one route. Shared transaction
+links stay cleaner, and the global switcher remains the source of truth.
 
-Production switching shows a confirmation prompt because switching environments can change the meaning of every visible number and action.
+Production switching asks for confirmation because every number and action
+changes meaning in Production. On a transaction detail page, switching env sends
+the user back to the list because transaction IDs are environment-specific in the
+mock data.
 
-Detail page behavior: if the user switches environment while viewing `/transactions/:id`, the app navigates back to `/transactions`. Transaction IDs are environment-specific in the mock data, so staying on the same detail ID after switching can produce invalid requests like `txn_live_*` in Sandbox.
+Also, in the wireframe env-switch UI is placed on the header, so my the first intuation
+was this is global setting, not per-page filter. That is the one of the reasons I
+kept it out of the URL and used Zustand persist instead.
 
-### Near Real-Time Updates
+## Near Real-Time Updates
 
 The transaction list and detail page use TanStack Query polling:
 
@@ -182,25 +156,60 @@ src/hooks/transactions/use-get-transaction.ts
 interval: 10 seconds
 ```
 
-Why polling:
+I used polling because the mock server is HTTP-only and the requirement asks for
+updates within tens of seconds. SSE or websockets would be a good next step for a
+production console, but for this assignment a 10-second interval is enough and
+works cleanly with TanStack Query’s cache and loading states.
 
-- The assignment asks for updates within tens of seconds; 10-second polling satisfies that requirement (I believe).
-- The provided mock server exposes HTTP endpoints, not webhooks, SSE, or websocket streams.
-- Webhooks are server-to-server notifications, so they do not directly update a browser tab without adding another push channel.
-- SSE/websockets would be reasonable for a real payment console, but would add server changes and connection lifecycle work that are not requested in this assignment.
-- Polling integrates cleanly with TanStack Query cache updates, stale state, loading flags, and background refetch behavior.
+The UI shows “syncing” and “last synced” text so the user can tell the table is
+alive without the page interrupting them.
 
-The UI exposes sync state with “syncing” and “last synced” text so the user can tell the list is refreshing without the page jumping around.
+### Real-Time UX Behavior
 
-### API Spec Issues And Improvements
+After each successful poll, the table updates in place. New transactions from
+the first page appear at the top, and pending rows update when their status
+changes. I avoided forced scroll-to-top behavior because someone reviewing older
+transactions should not lose their place just because the mock server added a new
+row.
+
+### Cache And Pagination Strategy
+
+The list uses `useInfiniteQuery` with the current `{ environment, limit }` in
+the query key. On each poll, TanStack Query refreshes the loaded pages and the UI
+renders directly from that cache. I did not keep a second manual copy of the
+transaction list.
+
+There is one important limitation: the mock server prepends (adds to the beginning) new transactions, so
+cursor windows can shift while a user has several pages loaded. Refetching loaded
+pages keeps the visible data fresh enough for this assignment, but a production
+version should use a stronger merge strategy: stable cursors, a transaction
+version field, or an event stream that lets the client merge changes by ID.
+
+### Detail Refresh Behavior
+
+The detail page uses the same 10-second polling interval. If the transaction
+moves from `pending` to `succeeded` or `failed`, the status badge, metadata, and
+timeline refresh in place. The user stays on the record they are inspecting.
+
+### Token Expiration Behavior
+
+The mock login response does not include expiry metadata, so I used an 8-hour
+httpOnly cookie as a local decision. If the cookie is gone, protected navigation
+sends the user back to sign-in; API calls without a valid cookie fail through the
+normal client-error path. In a real system I would prefer backend-provided expiry
+plus a dedicated “session expired, please sign in again” flow.
+
+## API Spec Issues And Improvements
 
 Things I noticed:
 
 - Auth response should ideally include token expiry or session metadata. I used an 8-hour httpOnly cookie as an explicit local decision.
 - Transaction list and detail use different environment conventions: list uses `env`, detail uses `X-Environment`. The BFF normalizes this (in real world I would suggest using the same mechanism across endpoints).
-- Search, status filters, date filtering, and Excel export are not provided by the backend, so they are implemented client-side over loaded rows ( wireframe inlcuded some filterings, so I have implemented them on the frontend).
-- Cursor pagination exists, but there is no total count or random access. The UI uses infinite scrolling rather than page numbers. ( Having pagination would be better for large datasets as Admins need to navigate to specific pages).
-- Detail updates can fail after environment switching because IDs are environment-specific. I redirect back to the list on env switch from detail.
+- Search, status filters, date filtering, and Excel export are not provided by the backend, so they are implemented client-side over loaded rows.
+- Cursor pagination exists, but there is no total count or random access. The UI uses infinite scrolling rather than page numbers; page-number pagination would be better if admins needed random access to specific result pages.
+- Transactions do not expose a revision field. Because of that, the client cannot
+  cheaply ask “what changed since the last sync” or confidently highlight changed
+  rows. I kept the mock API shape as-is and let polling refresh the query cache.
 
 Suggested backend improvements:
 
@@ -208,21 +217,21 @@ Suggested backend improvements:
 - Add server-side search/filter parameters for large datasets.
 - Return `total_count` if the product needs exact count display.
 - Return token expiry from login.
+- Add a transaction revision field so clients can diff changed rows accurately.
 - Consider SSE or websocket feed endpoints for production-grade live dashboards.
 
-### Decisions Beyond The Spec
+## Decisions Beyond The Spec
 
 - BFF route handlers: used to keep tokens httpOnly and normalize backend API shape.
 - Persisted environment: selected env survives reloads and stays consistent across screens.
 - Production confirmation: prevents accidental switch to live data.
 - Infinite scroll: better fit for cursor APIs than page-number pagination.
 - Detail polling: the detail screen also refreshes every 10 seconds so status/timeline changes appear while viewing it.
-- Env switch from detail redirects to list: avoids showing an ID from the wrong environment.
 - Global error handling: large auth/session errors can use alerts; normal form/API errors use toast feedback.
 - Excel download: included to make transaction review more useful for an admin workflow.
 - Dashboard charts: included to demonstrate aggregate transaction insight and frontend visualization skill.
 
-### Testing
+## Testing
 
 Unit/component tests:
 
@@ -244,21 +253,35 @@ bun run test
 bun run test:e2e
 ```
 
-### If I Had More Time
+## If I Had More Time
 
 - Add backend-supported filtering/search instead of client-side filtering over loaded rows.
 - Add SSE/websocket support if the backend exposes a transaction event stream.
+- Add a “new transactions available” banner for users scrolled away from the top of the list.
 - Add audit log entries for refund/capture/void actions.
 - Add more robust loading skeletons for each dashboard card.
 - Add table state persistence for hidden columns and sorting.
 - Add more E2E coverage for environment switching and transaction detail refresh.
 
-### Intentionally Simplified Or Omitted
+## Intentionally Simplified Or Omitted
 
 - Refund/capture/void actions are presented as mocked UI actions because the provided API does not expose mutation endpoints for them.
 - Auth uses the assignment login endpoint and local user store; there is no `/me` endpoint or full session refresh flow.
 - Polling is used instead of websockets/SSE to keep the solution aligned with the provided HTTP mock server.
-- Client-side filters are scoped to currently loaded transactions because the API does not expose filter parameters.
+- Cache updates rely on TanStack Query refetching loaded pages instead of a custom event-stream merge layer.
+- Client-side filters are scoped to currently loaded transactions because the
+  API does not expose filter parameters.
+
+---
+
+## Starter Template Notes
+
+This app was built from my Next.js starter. The starter includes production
+tooling such as Sentry, Lighthouse CI, Docker, Ladle, Commitizen, and release
+automation. Those tools are available in the repository, but the assignment work
+is described in the sections above.
+
+You can read more about the template tooling in [docs/production-tooling.md](docs/production-tooling.md).
 
 ## Scripts
 
