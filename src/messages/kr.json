@@ -245,7 +245,8 @@
       "confirm": "확인",
       "download": "Excel 다운로드",
       "loadMore": "더 불러오기",
-      "reset": "초기화"
+      "reset": "초기화",
+      "resetColumns": "열 초기화"
     },
     "description": "자동 새로고침으로 Sandbox와 Production 결제 내역을 확인하세요.",
     "empty": {

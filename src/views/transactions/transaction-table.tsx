@@ -1,11 +1,18 @@
 'use client';
 
+import { useState } from 'react';
+
 import {
+  SortingState,
+  VisibilityState,
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { RotateCcw } from 'lucide-react';
 
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -38,15 +45,40 @@ export function TransactionTable({
   isLoading,
   t,
 }: TransactionTableProps) {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const table = useReactTable({
     data,
     columns: getTransactionColumns(t),
+    state: {
+      columnVisibility,
+      sorting,
+    },
+    onColumnVisibilityChange: setColumnVisibility,
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     getRowId: (row) => row.id,
   });
+  const isAnyColumnHidden = table
+    .getAllLeafColumns()
+    .some((column) => !column.getIsVisible());
 
   return (
     <div className="overflow-hidden rounded border">
+      {isAnyColumnHidden && (
+        <div className="flex justify-end border-b bg-background p-2">
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={() => table.resetColumnVisibility()}
+          >
+            <RotateCcw className="size-4" />
+            {t('actions.resetColumns')}
+          </Button>
+        </div>
+      )}
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -80,7 +112,7 @@ export function TransactionTable({
           ) : (
             <TableRow>
               <TableCell
-                colSpan={table.getAllColumns().length}
+                colSpan={table.getVisibleLeafColumns().length}
                 className="h-56 text-center"
               >
                 <div className="mx-auto flex max-w-md flex-col items-center gap-2">

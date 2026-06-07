@@ -245,7 +245,8 @@
       "confirm": "Confirm",
       "download": "Download Excel",
       "loadMore": "Load more",
-      "reset": "Reset"
+      "reset": "Reset",
+      "resetColumns": "Reset columns"
     },
     "description": "Review payment history across Sandbox and Production with automatic refresh.",
     "empty": {
