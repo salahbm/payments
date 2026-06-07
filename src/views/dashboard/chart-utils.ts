@@ -53,7 +53,7 @@ export const getAmountData = (
   const totals = new Map<string, number>();
 
   transactions.forEach((transaction) => {
-    const hour = format(formatTransactionDate(transaction.created_at), 'mm:00');
+    const hour = format(formatTransactionDate(transaction.created_at), 'HH:00');
     const current = totals.get(hour) ?? 0;
 
     totals.set(hour, current + getTransactionAmountValue(transaction));

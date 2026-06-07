@@ -178,11 +178,25 @@
     "title": "Preferences"
   },
   "transactionDetail": {
+    "actions": {
+      "copiedEmail": "Customer email copied",
+      "copiedId": "Transaction ID copied",
+      "copyEmail": "Copy email",
+      "copyId": "Copy ID",
+      "emailCustomer": "Email customer"
+    },
     "back": "Back to transactions",
     "customer": {
       "email": "Email",
+      "id": "Customer ID",
       "name": "Name",
       "title": "Customer"
+    },
+    "metadata": {
+      "empty": "No metadata provided.",
+      "failureReason": "Failure reason",
+      "orderId": "Order ID",
+      "title": "Metadata"
     },
     "notFound": {
       "description": "This transaction could not be found in the selected environment.",
@@ -192,7 +206,8 @@
       "brand": "Brand",
       "expiry": "Expiry",
       "last4": "Card",
-      "title": "Payment method"
+      "title": "Payment method",
+      "type": "Type"
     },
     "status": {
       "failed": "Failed",
@@ -200,9 +215,18 @@
       "refunded": "Refunded",
       "succeeded": "Succeeded"
     },
+    "statusActions": {
+      "capture": "Capture",
+      "mocked": "This action is mocked for the assignment demo.",
+      "refund": "Refund",
+      "retry": "Retry payment",
+      "viewRefund": "View refund",
+      "void": "Void"
+    },
     "summary": {
       "amount": "Amount",
       "createdAt": "Created at",
+      "currency": "Currency",
       "order": "Order"
     },
     "sync": {
@@ -237,7 +261,7 @@
       "status": "Status",
       "timeWindow": "Time window"
     },
-    "resultCount": "{count} of {total} loaded transactions",
+    "resultCount": "{count} transactions",
     "searchPlaceholder": "Search transaction, customer, status...",
     "status": {
       "all": "All",

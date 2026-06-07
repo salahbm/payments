@@ -57,7 +57,7 @@ export function ScrollToTop({ className }: ScrollToTopProps) {
           aria-label={t('scrollToTop')}
           onClick={handleClick}
           className={cn(
-            'fixed right-10 bottom-14 z-9999 size-10 rounded-full bg-background shadow-xl transition-all duration-200',
+            'fixed right-4 bottom-4 z-9999 size-10 rounded-full bg-background shadow-xl transition-all duration-200 lg:right-10 lg:bottom-14',
             isVisible
               ? 'translate-y-0 opacity-100'
               : 'pointer-events-none translate-y-2 opacity-0',

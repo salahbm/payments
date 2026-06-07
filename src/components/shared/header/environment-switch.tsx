@@ -1,7 +1,10 @@
 'use client';
 
+import { useLocale } from 'next-intl';
+
 import { cn } from '@/lib/utils';
 
+import { usePathname } from '@/i18n/routing';
 import { useAlert } from '@/providers/alert';
 import { useEnvironmentStore } from '@/store/environment-store';
 import { Environment } from '@/types/transaction';
@@ -22,11 +25,17 @@ export function EnvironmentSwitch({
   onValueChange,
 }: EnvironmentSwitchProps) {
   const alert = useAlert();
+  const locale = useLocale();
+  const pathname = usePathname();
   const { environment: value, setEnvironment } = useEnvironmentStore();
 
   const commitChange = (nextValue: Environment) => {
     setEnvironment(nextValue);
     onValueChange?.(nextValue);
+
+    if (pathname.startsWith('/transactions/')) {
+      window.location.assign(`/${locale}/transactions`);
+    }
   };
 
   const handleChange = (nextValue: Environment) => {

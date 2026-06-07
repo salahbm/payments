@@ -2,12 +2,10 @@
 
 import { useMemo } from 'react';
 
-import {
-  AgChartOptions,
-  AllCommunityModule,
-  ModuleRegistry,
-} from 'ag-charts-community';
+import { AgChartOptions } from 'ag-charts-community';
 import { AgCharts } from 'ag-charts-react';
+
+import '@/lib/ag-charts';
 
 import { TransactionStatus } from '@/types/transaction';
 
@@ -22,8 +20,6 @@ type Translate = (
   _key: string,
   _values?: Record<string, string | number>,
 ) => string;
-
-ModuleRegistry.registerModules([AllCommunityModule]);
 
 const statusColor: Record<TransactionStatus, string> = {
   failed: '#ef4444',

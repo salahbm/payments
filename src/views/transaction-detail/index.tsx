@@ -2,15 +2,18 @@
 
 import { format } from 'date-fns';
 import {
-  ArrowLeft,
   CalendarClock,
+  Copy,
   CreditCard,
+  ExternalLink,
   Hash,
   Mail,
   ReceiptText,
+  Tags,
   User,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 
 import { TransactionStatusBadge } from '@/components/shared/transaction-status-badge';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
@@ -24,9 +27,11 @@ import {
 } from '@/utils/transactions';
 
 import { useGetTransaction } from '@/hooks/transactions';
-import { Link } from '@/i18n/routing';
 import { useEnvironmentStore } from '@/store/environment-store';
 import { TransactionStatus } from '@/types/transaction';
+
+import { StatusActions } from './status-actions';
+import { DetailLine, MetadataBlock, SummaryItem } from './tx-detail-blocks';
 
 interface TransactionDetailViewProps {
   id: string;
@@ -54,12 +59,6 @@ export default function TransactionDetailView({
             { label: t('notFound.title') },
           ]}
         />
-        <Button asChild variant="outline" className="w-fit">
-          <Link href="/transactions">
-            <ArrowLeft className="size-4" />
-            {t('back')}
-          </Link>
-        </Button>
         <section className="rounded border bg-background p-6">
           <h1 className="typo-header">{t('notFound.title')}</h1>
           <p className="typo-body-2 mt-2 text-muted-foreground">
@@ -70,41 +69,61 @@ export default function TransactionDetailView({
     );
   }
 
+  const copyValue = async (value: string, message: string) => {
+    await navigator.clipboard.writeText(value);
+    toast.success(message);
+  };
+
   return (
     <div className="flex flex-col gap-6">
-      <Breadcrumb
-        items={[
-          { label: transactionsT('title'), href: '/transactions' },
-          { label: data.id },
-        ]}
-      />
-
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-        <div className="flex flex-col gap-3">
-          <Button asChild variant="outline" className="w-fit">
-            <Link href="/transactions">
-              <ArrowLeft className="size-4" />
-              {t('back')}
-            </Link>
-          </Button>
+      <div className="flex flex-col gap-4">
+        <Breadcrumb
+          items={[
+            { label: transactionsT('title'), href: '/transactions' },
+            { label: data.id },
+          ]}
+        />
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <h1 className="typo-header">{data.id}</h1>
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="typo-header">{data.id}</h1>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                className="ml:ml-0 ml-auto"
+                onClick={() => copyValue(data.id, t('actions.copiedId'))}
+              >
+                <Copy className="size-4" />
+                {t('actions.copyId')}
+              </Button>
+            </div>
             <p className="typo-body-2 mt-2 text-muted-foreground">
               {isFetching ? t('sync.syncing') : t('sync.live')}
             </p>
           </div>
+          <div className="flex items-center justify-between gap-6 lg:justify-end">
+            <TransactionStatusBadge
+              status={data.status}
+              label={t(
+                `status.${data.status}` as `status.${TransactionStatus}`,
+              )}
+            />
+            <StatusActions status={data.status} t={t} />
+          </div>
         </div>
-        <TransactionStatusBadge
-          status={data.status}
-          label={t(`status.${data.status}` as `status.${TransactionStatus}`)}
-        />
       </div>
 
-      <section className="grid gap-4 rounded border bg-background p-4 md:grid-cols-3 md:p-5">
+      <section className="grid gap-4 rounded border bg-background p-4 md:grid-cols-4 md:p-5">
         <SummaryItem
           icon={ReceiptText}
           label={t('summary.amount')}
           value={formatTransactionAmount(data.amount, data.currency)}
+        />
+        <SummaryItem
+          icon={Hash}
+          label={t('summary.currency')}
+          value={data.currency.toUpperCase()}
         />
         <SummaryItem
           icon={CalendarClock}
@@ -125,6 +144,10 @@ export default function TransactionDetailView({
             <h2 className="typo-body-1">{t('customer.title')}</h2>
           </div>
           <div className="space-y-3">
+            <DetailLine
+              label={t('customer.id')}
+              value={data.customer.id ?? '-'}
+            />
             <DetailLine label={t('customer.name')} value={data.customer.name} />
             <DetailLine
               label={t('customer.email')}
@@ -132,12 +155,34 @@ export default function TransactionDetailView({
               icon={Mail}
             />
           </div>
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() =>
+                copyValue(data.customer.email, t('actions.copiedEmail'))
+              }
+            >
+              <Copy className="size-4" />
+              {t('actions.copyEmail')}
+            </Button>
+            <Button asChild variant="outline">
+              <a href={`mailto:${data.customer.email}`}>
+                <ExternalLink className="size-4" />
+                {t('actions.emailCustomer')}
+              </a>
+            </Button>
+          </div>
           <Separator className="my-5" />
           <div className="mb-4 flex items-center gap-2">
             <CreditCard className="size-5 text-primary" />
             <h2 className="typo-body-1">{t('paymentMethod.title')}</h2>
           </div>
           <div className="space-y-3">
+            <DetailLine
+              label={t('paymentMethod.type')}
+              value={data.payment_method.type}
+            />
             <DetailLine
               label={t('paymentMethod.brand')}
               value={data.payment_method.brand.toUpperCase()}
@@ -151,29 +196,43 @@ export default function TransactionDetailView({
               value={`${data.payment_method.exp_month}/${data.payment_method.exp_year}`}
             />
           </div>
+          <Separator className="my-5" />
+          <div className="mb-4 flex items-center gap-2">
+            <Tags className="size-5 text-primary" />
+            <h2 className="typo-body-1">{t('metadata.title')}</h2>
+          </div>
+          <MetadataBlock metadata={data.metadata} t={t} />
         </section>
 
         <section className="rounded border bg-background p-4 md:p-5">
           <h2 className="typo-body-1 mb-4">{t('timeline.title')}</h2>
           {data.events.length ? (
-            <ol className="space-y-4">
-              {data.events.map((event, index) => (
-                <li key={`${event.type}-${event.at}`} className="flex gap-3">
-                  <span className="mt-1 flex size-6 shrink-0 items-center justify-center rounded-full border bg-background">
-                    <span className="size-2 rounded-full bg-primary" />
+            <ol className="relative space-y-0 pl-8 before:absolute before:top-3 before:bottom-3 before:left-3 before:w-px before:bg-border">
+              {data.events.reverse().map((event, index) => (
+                <li
+                  key={`${event.type}-${event.at}`}
+                  className="relative pb-5 last:pb-0"
+                >
+                  <span className="absolute top-1 -left-8 z-1 flex size-6 items-center justify-center rounded-full border bg-background shadow-xs">
+                    <span className="typo-caption-2 flex size-4 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                      {index + 1}
+                    </span>
                   </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="typo-body-2">{event.type}</span>
+
+                  <div className="rounded border bg-muted/20 p-3">
+                    <div className="flex flex-wrap items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        <p className="typo-body-1 capitalize">{event.type}</p>
+                        <p className="typo-caption-1 mt-1 text-muted-foreground">
+                          {format(formatTransactionDate(event.at), 'PPP p')}
+                        </p>
+                      </div>
                       {index === data.events.length - 1 && (
                         <span className="typo-caption-2 rounded bg-muted px-2 py-0.5 text-muted-foreground">
                           {t('timeline.latest')}
                         </span>
                       )}
                     </div>
-                    <p className="typo-caption-1 mt-1 text-muted-foreground">
-                      {format(formatTransactionDate(event.at), 'PPP p')}
-                    </p>
                   </div>
                 </li>
               ))}
@@ -188,48 +247,6 @@ export default function TransactionDetailView({
           )}
         </section>
       </div>
-    </div>
-  );
-}
-
-function SummaryItem({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="flex items-center gap-3">
-      <span className="flex size-10 shrink-0 items-center justify-center rounded bg-muted">
-        <Icon className="size-5" />
-      </span>
-      <div className="min-w-0">
-        <p className="typo-caption-1 text-muted-foreground">{label}</p>
-        <p className="typo-body-1 truncate">{value}</p>
-      </div>
-    </div>
-  );
-}
-
-function DetailLine({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon?: React.ComponentType<{ className?: string }>;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="flex items-center justify-between gap-4">
-      <span className="typo-body-2 flex items-center gap-2 text-muted-foreground">
-        {Icon && <Icon className="size-4" />}
-        {label}
-      </span>
-      <span className="typo-body-2 min-w-0 truncate text-right">{value}</span>
     </div>
   );
 }

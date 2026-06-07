@@ -233,7 +233,6 @@ export default function TransactionsView() {
           <p className="typo-caption-1 text-foreground">
             {t('resultCount', {
               count: filteredData.length,
-              total: rows.length,
             })}
           </p>
 
