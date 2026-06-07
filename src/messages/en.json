@@ -262,7 +262,10 @@
       "status": "Status",
       "timeWindow": "Time window"
     },
-    "resultCount": "{count} transactions",
+    "newRows": {
+      "banner": "{count, plural, one {# new transaction} other {# new transactions}}"
+    },
+    "resultCount": "{count} loaded transactions",
     "searchPlaceholder": "Search transaction, customer, status...",
     "status": {
       "all": "All",

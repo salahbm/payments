@@ -168,9 +168,11 @@ alive without the page interrupting them.
 
 After each successful poll, the table updates in place. New transactions from
 the first page appear at the top, and pending rows update when their status
-changes. I avoided forced scroll-to-top behavior because someone reviewing older
-transactions should not lose their place just because the mock server added a new
-row.
+changes. Newly inserted rows briefly light up and fade over two seconds. If the
+user is scrolled away from the top of the list, a small “new transactions”
+banner appears; clicking it scrolls back to the latest rows. I avoided automatic
+scroll-to-top behavior because someone reviewing older transactions should not
+lose their place just because the mock server added a new row.
 
 ### Cache And Pagination Strategy
 
@@ -179,7 +181,7 @@ the query key. On each poll, TanStack Query refreshes the loaded pages and the U
 renders directly from that cache. I did not keep a second manual copy of the
 transaction list.
 
-There is one important limitation: the mock server prepends (adds to the beginning) new transactions, so
+There is one important limitation: the mock server prepends new transactions, so
 cursor windows can shift while a user has several pages loaded. Refetching loaded
 pages keeps the visible data fresh enough for this assignment, but a production
 version should use a stronger merge strategy: stable cursors, a transaction
@@ -257,7 +259,6 @@ bun run test:e2e
 
 - Add backend-supported filtering/search instead of client-side filtering over loaded rows.
 - Add SSE/websocket support if the backend exposes a transaction event stream.
-- Add a “new transactions available” banner for users scrolled away from the top of the list.
 - Add audit log entries for refund/capture/void actions.
 - Add more robust loading skeletons for each dashboard card.
 - Add table state persistence for hidden columns and sorting.

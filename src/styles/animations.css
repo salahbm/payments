@@ -10,3 +10,19 @@
 .animate-spin-once {
   animation: spin-once 1s forwards;
 }
+
+@keyframes new-transaction-row {
+  0% {
+    background-color: color-mix(in oklch, var(--primary) 24%, transparent);
+  }
+  45% {
+    background-color: color-mix(in oklch, var(--primary) 16%, transparent);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.animate-new-transaction-row {
+  animation: new-transaction-row 2s ease-out;
+}

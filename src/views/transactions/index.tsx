@@ -1,12 +1,11 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns';
-import { Download } from 'lucide-react';
+import { ArrowUp, Download } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useQueryState } from 'nuqs';
+import { parseAsIsoDate, parseAsString, useQueryStates } from 'nuqs';
 import { useForm } from 'react-hook-form';
 
 import { ScrollToTop } from '@/components/shared/scroll-to-top';
@@ -17,7 +16,11 @@ import { Button } from '@/components/ui/button';
 import { downloadTransactions } from '@/utils/excel-download';
 import { formatTransactionDate } from '@/utils/transactions';
 
-import { useGetTransactions } from '@/hooks/transactions';
+import {
+  useGetTransactions,
+  useLoadMoreOnIntersect,
+  useTransactionListSync,
+} from '@/hooks/transactions';
 import { useEnvironmentStore } from '@/store/environment-store';
 
 import { TransactionTable } from './transaction-table';
@@ -33,24 +36,30 @@ import {
 export default function TransactionsView() {
   const t = useTranslations('transactions');
   const { environment } = useEnvironmentStore();
-  const [search, setSearch] = useQueryState('search');
-  const [statusParam, setStatusParam] = useQueryState('status');
-  const [fromParam, setFromParam] = useQueryState('from');
-  const [toParam, setToParam] = useQueryState('to');
-  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const [queryFilters, setQueryFilters] = useQueryStates({
+    from: parseAsIsoDate,
+    search: parseAsString,
+    status: parseAsString,
+    to: parseAsIsoDate,
+  });
   const defaultFilters = useMemo<TransactionFilters>(
     () => ({
       interval:
-        fromParam || toParam
+        queryFilters.from || queryFilters.to
           ? {
-              from: fromParam ? new Date(fromParam) : undefined,
-              to: toParam ? new Date(toParam) : undefined,
+              from: queryFilters.from ?? undefined,
+              to: queryFilters.to ?? undefined,
             }
           : undefined,
-      search: search ?? '',
-      ...buildStatusDefaults(statusParam),
+      search: queryFilters.search ?? '',
+      ...buildStatusDefaults(queryFilters.status),
     }),
-    [fromParam, search, statusParam, toParam],
+    [
+      queryFilters.from,
+      queryFilters.search,
+      queryFilters.status,
+      queryFilters.to,
+    ],
   );
   const [activeFilters, setActiveFilters] =
     useState<TransactionFilters>(defaultFilters);
@@ -94,13 +103,12 @@ export default function TransactionsView() {
       ),
     [failed, pending, refunded, succeeded],
   );
-  const hasActiveFilters =
-    Boolean(activeFilters.search.trim()) ||
-    Boolean(activeFilters.interval?.from || activeFilters.interval?.to) ||
-    selectedStatuses.size !== TRANSACTION_STATUSES.length;
-
   const rows = useMemo(
     () => data?.pages.flatMap((page) => page.data) ?? [],
+    [data?.pages],
+  );
+  const firstPageRows = useMemo(
+    () => data?.pages[0]?.data ?? [],
     [data?.pages],
   );
 
@@ -140,19 +148,17 @@ export default function TransactionsView() {
 
   const applyFiltersToUrl = (values: TransactionFilters) => {
     const selected = TRANSACTION_STATUSES.filter((status) => values[status]);
-    const value =
+    const status =
       values.all || selected.length === TRANSACTION_STATUSES.length
         ? null
         : selected.join(',');
 
-    void setSearch(values.search.trim() ? values.search.trim() : null);
-    void setStatusParam(value);
-    void setFromParam(
-      values.interval?.from ? format(values.interval.from, 'yyyy-MM-dd') : null,
-    );
-    void setToParam(
-      values.interval?.to ? format(values.interval.to, 'yyyy-MM-dd') : null,
-    );
+    void setQueryFilters({
+      from: values.interval?.from ?? null,
+      search: values.search.trim() ? values.search.trim() : null,
+      status,
+      to: values.interval?.to ?? null,
+    });
   };
 
   const handleConfirm = (values: TransactionFilters) => {
@@ -173,39 +179,38 @@ export default function TransactionsView() {
 
     form.reset(values);
     setActiveFilters(values);
-    void setSearch(null);
-    void setStatusParam(null);
-    void setFromParam(null);
-    void setToParam(null);
+    void setQueryFilters({
+      from: null,
+      search: null,
+      status: null,
+      to: null,
+    });
   };
 
+  // Keep the visible filter form honest when the URL changes outside the form.
+  // This covers shared links, reloads, and browser back/forward after filtering.
   useEffect(() => {
     form.reset(defaultFilters);
     setActiveFilters(defaultFilters);
   }, [defaultFilters, form]);
 
-  useEffect(() => {
-    const element = loadMoreRef.current;
+  const {
+    handleShowNewRows,
+    highlightedRowIds,
+    listTopRef,
+    pendingNewRowsCount,
+    showNewRowsBanner,
+  } = useTransactionListSync({
+    environment,
+    firstPageRows,
+    isFetchingNextPage,
+  });
 
-    if (!element) return;
-
-    const observer = new IntersectionObserver(([entry]) => {
-      if (
-        entry?.isIntersecting &&
-        hasNextPage &&
-        !hasActiveFilters &&
-        !isFetchingNextPage
-      ) {
-        void fetchNextPage();
-      }
-    });
-
-    observer.observe(element);
-
-    return () => observer.disconnect();
-  }, [fetchNextPage, hasActiveFilters, hasNextPage, isFetchingNextPage]);
-
-  const handleDownload = () => downloadTransactions(filteredData, t);
+  const loadMoreRef = useLoadMoreOnIntersect({
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
 
   return (
     <div className="relative flex flex-col gap-6">
@@ -218,6 +223,23 @@ export default function TransactionsView() {
         </div>
         <Breadcrumb items={[{ label: t('title') }]} />
       </div>
+
+      <div ref={listTopRef} className="scroll-mt-6" />
+
+      {showNewRowsBanner && (
+        <div className="sticky top-4 z-10 flex justify-center">
+          <Button
+            type="button"
+            size="sm"
+            variant="default"
+            onClick={handleShowNewRows}
+            className="shadow-md"
+          >
+            <ArrowUp className="size-4" />
+            {t('newRows.banner', { count: pendingNewRowsCount })}
+          </Button>
+        </div>
+      )}
 
       <div className="flex flex-col gap-4 border-b bg-background pb-4 md:rounded lg:border lg:p-4">
         <TransactionsTableActions
@@ -248,7 +270,7 @@ export default function TransactionsView() {
           <Button
             type="button"
             variant="outline"
-            onClick={handleDownload}
+            onClick={() => downloadTransactions(filteredData, t)}
             disabled={!filteredData.length}
             className="max-w-40 px-4"
           >
@@ -266,6 +288,7 @@ export default function TransactionsView() {
             rows.length ? 'empty.filteredDescription' : 'empty.description',
           )}
           emptyTitle={t(rows.length ? 'empty.filteredTitle' : 'empty.title')}
+          highlightedRowIds={highlightedRowIds}
           isLoading={isFetching && !data}
           t={t}
         />

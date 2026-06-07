@@ -262,7 +262,10 @@
       "status": "상태",
       "timeWindow": "기간"
     },
-    "resultCount": "{count} 개",
+    "newRows": {
+      "banner": "새 거래 {count}건"
+    },
+    "resultCount": "불러온 거래 {count}건",
     "searchPlaceholder": "거래, 고객, 상태 검색...",
     "status": {
       "all": "전체",

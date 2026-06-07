@@ -34,6 +34,7 @@ interface TransactionTableProps {
   data: TransactionListItem[];
   emptyDescription: string;
   emptyTitle: string;
+  highlightedRowIds?: Set<string>;
   isLoading?: boolean;
   t: Translate;
 }
@@ -42,6 +43,7 @@ export function TransactionTable({
   data,
   emptyDescription,
   emptyTitle,
+  highlightedRowIds,
   isLoading,
   t,
 }: TransactionTableProps) {
@@ -101,7 +103,13 @@ export function TransactionTable({
         <TableBody>
           {table.getRowModel().rows.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
+              <TableRow
+                key={row.id}
+                className={cn(
+                  highlightedRowIds?.has(row.original.id) &&
+                    'animate-new-transaction-row',
+                )}
+              >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
