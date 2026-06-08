@@ -1,7 +1,7 @@
 {
   "Metadata": {
-    "title": "Next JS Starter에 오신 것을 환영합니다",
-    "description": "Next JS Starter용 관리자 패널입니다"
+    "title": "Payments",
+    "description": "가맹점 결제 내역 대시보드입니다"
   },
   "Header": {
     "language": "언어",
@@ -10,6 +10,11 @@
     "toggleSidebar": "사이드바 토글"
   },
   "Sidebar": {
+    "overview": "개요",
+    "transactions": "거래",
+    "customers": "고객",
+    "paymentMethods": "결제 수단",
+    "developers": "개발자",
     "dashboard": "대시보드",
     "dev": "개발",
     "primitives": "프리미티브",
@@ -26,6 +31,7 @@
     "view": "보기",
     "search": "검색",
     "noData": "데이터가 없습니다",
+    "scrollToTop": "맨 위로 이동",
     "date": "날짜",
     "time": "시간",
     "reset": "초기화",
@@ -37,6 +43,7 @@
       "date": "날짜 선택",
       "time": "시간 선택",
       "datetime": "날짜 및 시간 선택",
+      "dateRange": "날짜 범위 선택",
       "selectItem": "항목 선택",
       "selectItems": "항목 선택",
       "enterValue": "값 입력",
@@ -67,7 +74,7 @@
     },
     "signUp": {
       "title": "계정 만들기",
-      "subtitle": "Next JS Starter를 시작하려면 회원가입하세요",
+      "subtitle": "Payments를 시작하려면 회원가입하세요",
       "usernameLabel": "사용자 이름",
       "usernamePlaceholder": "사용자 이름을 입력하세요",
       "emailLabel": "이메일",
@@ -98,5 +105,189 @@
         "button": "로그인으로 돌아가기"
       }
     }
+  },
+  "dashboard": {
+    "charts": {
+      "amount": {
+        "amount": "금액",
+        "subtitle": "불러온 거래 샘플의 시간별 승인 금액입니다.",
+        "title": "시간별 금액 추이"
+      },
+      "customers": {
+        "failed": "실패",
+        "pending": "대기 중",
+        "refunded": "환불됨",
+        "spending": "지출",
+        "subtitle": "고객별 지출과 상태 비율 라인을 보여줍니다.",
+        "succeeded": "성공",
+        "title": "고객 지출 및 상태",
+        "transactions": "거래 {count}건"
+      },
+      "empty": "차트 데이터가 없습니다",
+      "status": {
+        "count": "거래",
+        "subtitle": "현재 결제 상태별 거래 분포입니다.",
+        "title": "상태 분포"
+      }
+    },
+    "description": "실시간 거래 피드로 구성한 결제 현황입니다.",
+    "metrics": {
+      "amount": "불러온 금액",
+      "customers": "고객",
+      "succeeded": "성공",
+      "transactions": "거래"
+    },
+    "sample": "불러온 거래 {count}건으로 차트를 표시합니다",
+    "title": "개요"
+  },
+  "preferences": {
+    "account": {
+      "csrState": "CSR 상태: 지속 저장소",
+      "fallbackName": "계정",
+      "noSessionApi": "Session API: 필요 없음",
+      "noUserStored": "저장된 사용자가 없습니다",
+      "signOut": "로그아웃",
+      "signingOut": "로그아웃 중",
+      "ssrGuard": "SSR 보호: 인증 쿠키"
+    },
+    "description": "이 과제의 로컬 계정 상태와 작업 공간 표시 설정을 관리하세요.",
+    "environment": {
+      "description": "현재 계정을 변경하지 않고 sandbox와 production 보기 사이를 전환합니다.",
+      "title": "환경"
+    },
+    "language": {
+      "options": {
+        "en": "English",
+        "kr": "한국어",
+        "ru": "Русский"
+      },
+      "title": "언어"
+    },
+    "status": {
+      "signedIn": "로그인됨",
+      "signedOut": "로그아웃됨"
+    },
+    "theme": {
+      "options": {
+        "dark": "다크",
+        "light": "라이트",
+        "system": "시스템"
+      },
+      "title": "테마"
+    },
+    "title": "환경설정"
+  },
+  "transactionDetail": {
+    "actions": {
+      "copiedEmail": "고객 이메일을 복사했습니다",
+      "copiedId": "거래 ID를 복사했습니다",
+      "copyEmail": "이메일 복사",
+      "copyId": "ID 복사",
+      "emailCustomer": "고객에게 이메일"
+    },
+    "back": "거래 목록으로",
+    "customer": {
+      "email": "이메일",
+      "id": "고객 ID",
+      "name": "이름",
+      "title": "고객"
+    },
+    "metadata": {
+      "empty": "제공된 메타데이터가 없습니다.",
+      "failureReason": "실패 사유",
+      "orderId": "주문 ID",
+      "title": "메타데이터"
+    },
+    "notFound": {
+      "description": "선택한 환경에서 이 거래를 찾을 수 없습니다.",
+      "title": "거래를 찾을 수 없습니다"
+    },
+    "paymentMethod": {
+      "brand": "브랜드",
+      "expiry": "만료일",
+      "last4": "카드",
+      "title": "결제 수단",
+      "type": "유형"
+    },
+    "status": {
+      "failed": "실패",
+      "pending": "대기 중",
+      "refunded": "환불됨",
+      "succeeded": "성공"
+    },
+    "statusActions": {
+      "capture": "캡처",
+      "mocked": "과제 데모용 모의 액션입니다.",
+      "refund": "환불",
+      "retry": "결제 재시도",
+      "viewRefund": "환불 보기",
+      "void": "무효 처리"
+    },
+    "summary": {
+      "amount": "금액",
+      "createdAt": "생성일",
+      "currency": "통화",
+      "order": "주문"
+    },
+    "sync": {
+      "live": "10초마다 자동 새로고침",
+      "syncing": "최신 거래 상태 동기화 중"
+    },
+    "timeline": {
+      "emptyDescription": "아직 기록된 거래 이벤트가 없습니다.",
+      "emptyTitle": "이벤트 없음",
+      "latest": "최신",
+      "title": "이벤트 타임라인"
+    }
+  },
+  "transactions": {
+    "actions": {
+      "confirm": "확인",
+      "download": "Excel 다운로드",
+      "loadMore": "더 불러오기",
+      "reset": "초기화",
+      "resetColumns": "열 초기화"
+    },
+    "description": "자동 새로고침으로 Sandbox와 Production 결제 내역을 확인하세요.",
+    "empty": {
+      "description": "선택한 환경에 활동이 생기면 거래가 여기에 표시됩니다.",
+      "filteredDescription": "검색어, 상태 또는 기간 필터를 변경해 보세요.",
+      "filteredTitle": "일치하는 거래가 없습니다",
+      "title": "아직 거래가 없습니다"
+    },
+    "endOfList": "불러온 모든 거래를 표시했습니다.",
+    "filters": {
+      "dateRange": "날짜 범위 선택",
+      "search": "검색",
+      "status": "상태",
+      "timeWindow": "기간"
+    },
+    "newRows": {
+      "banner": "새 거래 {count}건"
+    },
+    "resultCount": "불러온 거래 {count}건",
+    "searchPlaceholder": "거래, 고객, 상태 검색...",
+    "status": {
+      "all": "전체",
+      "failed": "실패",
+      "pending": "대기 중",
+      "refunded": "환불됨",
+      "succeeded": "성공"
+    },
+    "sync": {
+      "lastUpdated": "{time}에 마지막 동기화",
+      "never": "없음",
+      "syncing": "최신 거래 동기화 중"
+    },
+    "table": {
+      "amount": "금액",
+      "createdAt": "생성일",
+      "currency": "통화",
+      "customer": "고객",
+      "email": "이메일",
+      "id": "ID",
+      "status": "상태"
+    },
+    "title": "거래"
   }
 }

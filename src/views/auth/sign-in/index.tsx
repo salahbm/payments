@@ -1,40 +1,27 @@
 'use client';
 
-import { useState } from 'react';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
 
 import { FormFields } from '@/components/shared/form-fields';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { Input, PasswordInput } from '@/components/ui/input';
 
-import { required } from '@/utils/zod-locale';
-
-import { COOKIE_KEYS } from '@/constants/cookies';
 import { routes } from '@/constants/routes';
 
+import { SignInType, signInSchema } from '@/hooks/auth/auth.schema';
+import { useSignIn } from '@/hooks/auth/use-sign-in';
 import { Link, useRouter } from '@/i18n/routing';
-
-// Standard Zod errors (email, min) are handled by the built-in locale.
-// Custom validations use .refine() with customCode for the customError map.
-const signInSchema = z.object({
-  email: required(z.email()),
-  password: required(z.string().min(6)),
-});
-
-type SignInFormValues = z.infer<typeof signInSchema>;
 
 export function SignInView() {
   const router = useRouter();
   const t = useTranslations('auth');
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutate: signIn, isPending: isLoading } = useSignIn();
 
-  const form = useForm<SignInFormValues>({
+  const form = useForm<SignInType>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
       email: '',
@@ -42,32 +29,17 @@ export function SignInView() {
     },
   });
 
-  const onSubmit = async (data: SignInFormValues) => {
-    setIsLoading(true);
-
-    try {
-      // Here you would implement your authentication logic
-      console.info('Sign in data:', data);
-
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Set access token in cookie
-      document.cookie = `${COOKIE_KEYS.ACCESS_TOKEN}=${data.email}; path=/; expires=${new Date(
-        Date.now() + 60 * 60 * 24 * 7,
-      ).toUTCString()}`;
-
-      // Redirect to dashboard or home page after successful login
-      router.push(routes.home);
-    } catch (error) {
-      console.error('Sign in error:', error);
-    } finally {
-      setIsLoading(false);
-    }
+  const onSubmit = (data: SignInType) => {
+    signIn(data, {
+      onSuccess: () => {
+        form.reset();
+        router.push(routes.home);
+      },
+    });
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-4">
+    <main className="flex min-h-screen flex-col items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <h1 className="typo-header">{t('signIn.title')}</h1>
@@ -132,6 +104,6 @@ export function SignInView() {
           </form>
         </Form>
       </div>
-    </div>
+    </main>
   );
 }

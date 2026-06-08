@@ -10,29 +10,29 @@ You are my coding assistant. Follow these rules strictly for this project:
      - Data fetching
      - Passing data to a view component
    - Never put UI code directly inside a page.
-   - Import and render the view from `components/views/...`.
+   - Import and render the view from `views/...`.
    - Example:
      ```
      app/[locale]/(protected)/dashboard/page.tsx   <- SSR + data fetching
-     components/views/dashboard/index.tsx          <- CSR view + UI
+     views/dashboard/index.tsx          <- CSR view + UI
      ```
 
 3. **View Components**
-   - Each view gets its own folder under `components/views/{view-name}/`.
+   - Each view gets its own folder under `views/{view-name}/`.
    - Export the main view from `index.tsx`.
-   - Place subcomponents in `components/views/{view-name}/`.
+   - Place subcomponents in `views/{view-name}/`.
    - Example:
      ```
-     components/views/dashboard/index.tsx
-     components/views/dashboard/chart.tsx
+     views/dashboard/index.tsx
+     views/dashboard/chart.tsx
      ```
 
 4. **Types**
-   - For multiple types in a view, create `{view-name}.d.ts` in the same folder. 
-   - Unless they are used globally, in that case create them in `types/{view-name or resource-name}.d.ts`.
+   - For multiple types in a view, create `{view-name}.ts` in the same folder. 
+   - Unless they are used globally, in that case create them in `types/{view-name or resource-name}.ts`.
 
 5. **Utils (Scoped)**
-   - Place logic/helpers for a view in `components/views/{view-name}/utils/`.
+   - Place logic/helpers for a view in `views/{view-name}/utils/`.
    - If the utils are used globally, create them in `utils/{view-name or resource-name}/` or `lib/{view-name or resource-name}.ts`.
 
 6. **Shared (Scoped)**
@@ -43,7 +43,7 @@ You are my coding assistant. Follow these rules strictly for this project:
      - Components → `components/shared/{name}/index.tsx` <- globally used components
      - Utils → `utils/{name}/` or `utils/{name}.ts` <- globally used utils
      - Styles → `styles/{name}.css` <- globally used styles
-     - Types → `types/{name}.d.ts` <- globally used types
+     - Types → `types/{name}.ts` <- globally used types
      - Constants → `constants/{name}.ts` <- globally used constants
 
 8. **Forms**

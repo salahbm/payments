@@ -6,6 +6,7 @@ This document provides instructions for building, testing, and developing the Ne
 
 - Node.js 18.x or later
 - npm 9.x or later
+- bun 1.x or later
 - Git
 
 ## Installation
@@ -15,7 +16,7 @@ Clone the repository and install dependencies:
 ```bash
 git clone https://github.com/salahbm/nextjs-starter.git
 cd nextjs-starter
-npm install
+bun install
 ```
 
 ## Development
@@ -23,7 +24,7 @@ npm install
 Start the development server:
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 The application will be available at [http://localhost:3000](http://localhost:3000).
@@ -33,13 +34,13 @@ The application will be available at [http://localhost:3000](http://localhost:30
 Build the application for production:
 
 ```bash
-npm run build
+bun run build
 ```
 
 Start the production server:
 
 ```bash
-npm start
+bun start
 ```
 
 ## Testing
@@ -47,13 +48,13 @@ npm start
 Run tests:
 
 ```bash
-npm test
+bun test
 ```
 
 Run linting:
 
 ```bash
-npm run lint
+bun run lint
 ```
 
 ## Project Structure

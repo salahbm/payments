@@ -95,7 +95,7 @@ export default function FormsPage() {
   };
 
   return (
-    <div className="container mx-auto pb-8">
+    <div className="pb-8">
       <h1 className="mb-6 text-3xl font-bold">Forms Demo</h1>
 
       <h2 className="text-xl font-semibold text-primary">

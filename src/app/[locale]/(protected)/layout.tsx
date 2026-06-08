@@ -14,8 +14,13 @@ export default async function ProtectedLayout({
       <Header />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
-        <div className="h-[calc(100vh-4rem)] w-full overflow-y-auto">
-          <main className="px-4 py-6 md:px-6">{children}</main>
+        <div
+          data-scroll-container="protected"
+          className="h-[calc(100vh-4rem)] w-full overflow-y-auto"
+        >
+          <main className="px-4 py-6 md:px-6 lg:px-8 lg:pb-8 xl:px-12">
+            {children}
+          </main>
         </div>
       </div>
     </Suspense>

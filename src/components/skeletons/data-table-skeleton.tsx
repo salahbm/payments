@@ -36,8 +36,8 @@ export function DataTableSkeleton({
       {...props}
     >
       <div className="flex items-center justify-end gap-2">
-        <Skeleton className="hidden h-7 w-[4.5rem] lg:flex" />
-        <Skeleton className="hidden h-7 w-[4.5rem] lg:flex" />
+        <Skeleton className="hidden h-7 w-18 lg:flex" />
+        <Skeleton className="hidden h-7 w-18 lg:flex" />
       </div>
 
       <div className="rounded-md border">

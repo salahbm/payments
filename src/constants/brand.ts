@@ -1,3 +1,3 @@
 export const BRAND = {
-  name: 'Project Name',
+  name: 'Payments',
 };

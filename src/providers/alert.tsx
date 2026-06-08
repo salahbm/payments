@@ -137,12 +137,15 @@ const AlertContent: React.FC<IAlertContent> = memo(
     const renderActions = () => {
       if (!customActions) {
         return (
-          <>
+          <footer className="mt-6 flex w-full items-center justify-center gap-4">
             {cancelButton !== null && (
               <AlertDialogCancel
                 onClick={async () => {
                   await Promise.resolve(onCancel).then(onCancelProp);
                 }}
+                size="lg"
+                variant="outline"
+                className={cn('w-full max-w-1/2', cancelButton?.className)}
                 {...cancelButton}
               >
                 {cancelText}
@@ -152,11 +155,14 @@ const AlertContent: React.FC<IAlertContent> = memo(
               onClick={async () =>
                 await Promise.resolve(onConfirm).then(onConfirmProp)
               }
+              size="lg"
+              variant="default"
+              className={cn('w-full max-w-1/2', confirmButton?.className)}
               {...confirmButton}
             >
               {confirmText}
             </AlertDialogAction>
-          </>
+          </footer>
         );
       }
 
@@ -201,24 +207,25 @@ const AlertContent: React.FC<IAlertContent> = memo(
         aria-describedby={description ? 'alert-dialog-description' : undefined}
         {...alertDialogContent}
       >
-        <AlertDialogHeader {...alertDialogHeader} className="mb-6 py-0">
+        <AlertDialogHeader {...alertDialogHeader}>
           {icon && (
             <span className="mb-5 flex-center w-full">{renderIcon}</span>
           )}
           {title && (
-            <AlertDialogTitle {...alertDialogTitle}>
-              {title ?? description}
-            </AlertDialogTitle>
+            <AlertDialogTitle {...alertDialogTitle}>{title}</AlertDialogTitle>
           )}
           {description && (
             <AlertDialogDescription
               id="alert-dialog-description"
               {...alertDialogDescription}
-              className="mt-1 text-center"
+              className="mt-1"
             >
-              {description ?? title}
+              {description}
             </AlertDialogDescription>
           )}
+          <AlertDialogDescription className="sr-only">
+            This is added to improve accessibility for screen readers
+          </AlertDialogDescription>
           {contentSlot}
         </AlertDialogHeader>
         <AlertDialogFooter {...alertDialogFooter}>

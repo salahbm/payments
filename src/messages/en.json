@@ -1,7 +1,7 @@
 {
   "Metadata": {
-    "title": "Welcome to Next JS Starter",
-    "description": "This is the admin panel for Next JS Starter"
+    "title": "Payments",
+    "description": "Merchant payment history dashboard"
   },
   "Header": {
     "language": "Language",
@@ -10,6 +10,11 @@
     "toggleSidebar": "Toggle sidebar"
   },
   "Sidebar": {
+    "overview": "Overview",
+    "transactions": "Transactions",
+    "customers": "Customers",
+    "paymentMethods": "Payment methods",
+    "developers": "Developers",
     "dashboard": "Dashboard",
     "dev": "Development",
     "primitives": "Primitives",
@@ -27,6 +32,7 @@
     "view": "View",
     "search": "Search",
     "noData": "There is no data",
+    "scrollToTop": "Scroll to top",
     "date": "Date",
     "time": "Time",
     "reset": "Reset",
@@ -38,6 +44,7 @@
       "date": "Select date",
       "time": "Select time",
       "datetime": "Select date and time",
+      "dateRange": "Select date range",
       "selectItem": "Select item",
       "selectItems": "Select items",
       "enterValue": "Enter value",
@@ -68,7 +75,7 @@
     },
     "signUp": {
       "title": "Create an account",
-      "subtitle": "Sign up to get started with Next JS Starter",
+      "subtitle": "Sign up to get started with Payments",
       "usernameLabel": "Username",
       "usernamePlaceholder": "Enter your username",
       "emailLabel": "Email",
@@ -99,5 +106,188 @@
         "button": "Back to sign in"
       }
     }
+  },
+  "dashboard": {
+    "charts": {
+      "amount": {
+        "amount": "Amount",
+        "subtitle": "Hourly authorized volume in the loaded transaction sample.",
+        "title": "Hourly amount trend"
+      },
+      "customers": {
+        "failed": "Failed",
+        "pending": "Pending",
+        "refunded": "Refunded",
+        "spending": "Spending",
+        "subtitle": "Top customers by spend with status-rate lines for their transactions.",
+        "succeeded": "Succeeded",
+        "title": "Customer spending and status",
+        "transactions": "{count} transactions"
+      },
+      "empty": "No chart data available",
+      "status": {
+        "count": "Transactions",
+        "subtitle": "Distribution of transactions by current payment status.",
+        "title": "Status distribution"
+      }
+    },
+    "description": "A visual payment overview built from the live transaction feed.",
+    "metrics": {
+      "amount": "Loaded amount",
+      "customers": "Customers",
+      "succeeded": "Succeeded",
+      "transactions": "Transactions"
+    },
+    "sample": "Showing charts from {count} loaded transactions",
+    "title": "Overview"
+  },
+  "preferences": {
+    "account": {
+      "csrState": "CSR state: persisted store",
+      "fallbackName": "Account",
+      "noSessionApi": "Session API: not required",
+      "noUserStored": "No user stored",
+      "signOut": "Sign out",
+      "signingOut": "Signing out",
+      "ssrGuard": "SSR guard: auth cookie"
+    },
+    "description": "Manage local account state and workspace display settings for this assignment.",
+    "environment": {
+      "description": "Switch between sandbox and production views without changing the current account.",
+      "title": "Environment"
+    },
+    "language": {
+      "options": {
+        "en": "English",
+        "kr": "한국어"
+      },
+      "title": "Language"
+    },
+    "status": {
+      "signedIn": "Signed in",
+      "signedOut": "Signed out"
+    },
+    "theme": {
+      "options": {
+        "dark": "Dark",
+        "light": "Light",
+        "system": "System"
+      },
+      "title": "Theme"
+    },
+    "title": "Preferences"
+  },
+  "transactionDetail": {
+    "actions": {
+      "copiedEmail": "Customer email copied",
+      "copiedId": "Transaction ID copied",
+      "copyEmail": "Copy email",
+      "copyId": "Copy ID",
+      "emailCustomer": "Email customer"
+    },
+    "back": "Back to transactions",
+    "customer": {
+      "email": "Email",
+      "id": "Customer ID",
+      "name": "Name",
+      "title": "Customer"
+    },
+    "metadata": {
+      "empty": "No metadata provided.",
+      "failureReason": "Failure reason",
+      "orderId": "Order ID",
+      "title": "Metadata"
+    },
+    "notFound": {
+      "description": "This transaction could not be found in the selected environment.",
+      "title": "Transaction not found"
+    },
+    "paymentMethod": {
+      "brand": "Brand",
+      "expiry": "Expiry",
+      "last4": "Card",
+      "title": "Payment method",
+      "type": "Type"
+    },
+    "status": {
+      "failed": "Failed",
+      "pending": "Pending",
+      "refunded": "Refunded",
+      "succeeded": "Succeeded"
+    },
+    "statusActions": {
+      "capture": "Capture",
+      "mocked": "This action is mocked for the assignment demo.",
+      "refund": "Refund",
+      "retry": "Retry payment",
+      "viewRefund": "View refund",
+      "void": "Void"
+    },
+    "summary": {
+      "amount": "Amount",
+      "createdAt": "Created at",
+      "currency": "Currency",
+      "order": "Order"
+    },
+    "sync": {
+      "live": "Auto-refreshing every 10 seconds",
+      "syncing": "Syncing latest transaction state"
+    },
+    "timeline": {
+      "emptyDescription": "No transaction events have been recorded yet.",
+      "emptyTitle": "No events yet",
+      "latest": "Latest",
+      "title": "Event timeline"
+    }
+  },
+  "transactions": {
+    "actions": {
+      "confirm": "Confirm",
+      "download": "Download Excel",
+      "loadMore": "Load more",
+      "reset": "Reset",
+      "resetColumns": "Reset columns"
+    },
+    "description": "Review payment history across Sandbox and Production with automatic refresh.",
+    "empty": {
+      "description": "Transactions will appear here once the selected environment has activity.",
+      "filteredDescription": "Try changing the search, status, or time window filters.",
+      "filteredTitle": "No transactions match",
+      "title": "No transactions yet"
+    },
+    "endOfList": "All loaded transactions are shown.",
+    "filters": {
+      "dateRange": "Select date range",
+      "search": "Search",
+      "status": "Status",
+      "timeWindow": "Time window"
+    },
+    "newRows": {
+      "banner": "{count, plural, one {# new transaction} other {# new transactions}}"
+    },
+    "resultCount": "{count} loaded transactions",
+    "searchPlaceholder": "Search transaction, customer, status...",
+    "status": {
+      "all": "All",
+      "failed": "Failed",
+      "pending": "Pending",
+      "refunded": "Refunded",
+      "succeeded": "Succeeded"
+    },
+    "sync": {
+      "lastUpdated": "Last synced at {time}",
+      "never": "never",
+      "syncing": "Syncing latest transactions"
+    },
+    "table": {
+      "amount": "Amount",
+      "createdAt": "Created at",
+      "currency": "Currency",
+      "customer": "Customer",
+      "email": "Email",
+      "id": "ID",
+      "status": "Status"
+    },
+    "title": "Transactions"
   }
 }

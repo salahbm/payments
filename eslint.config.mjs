@@ -21,6 +21,7 @@ export default [
       '**/coverage',
       '.lintstagedrc.js',
       'next-env.d.ts',
+      'mock-server',
     ],
   },
   {

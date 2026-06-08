@@ -1,12 +1,5 @@
-import { NextPage } from 'next';
+import DashboardView from '@/views/dashboard';
 
-const HomePage: NextPage = () => {
-  return (
-    <div className="container mx-auto pb-8">
-      <h1 className="typo-header">Welcome</h1>
-      <p className="typo-body-1">You are logged in</p>
-    </div>
-  );
-};
-
-export default HomePage;
+export default function HomePage() {
+  return <DashboardView />;
+}
